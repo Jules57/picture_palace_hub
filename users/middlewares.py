@@ -8,7 +8,7 @@ import datetime
 class LogoutMiddleware(MiddlewareMixin):
     def process_request(self, request):
         if not request.user.is_staff or not request.user.is_superuser:
-            now = timezone.now()
+            now = datetime.datetime.now()
             last_action_not_found = request.session.get('last_action')
             if last_action_not_found:
                 last_action = datetime.datetime.strptime(last_action_not_found, "%H-%M-%S %d/%m/%y")
