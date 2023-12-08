@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}Log In{% endblock %}
+{% block title %}Add Movie Show{% endblock %}
 
 {% block content %}
-    <h2>Sign Up</h2>
+    <h2>Create new movie show</h2>
     <div class="form-container">
         <form action="" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="Log In">
+            <input type="submit" value="Add show">
         </form>
     </div>
 {% endblock %}

@@ -1,8 +1,18 @@
+:root {
+    --background-image: url('../img/cinema_bckgrnd.jpg');
+}
+
 body {
     font-family: sans-serif;
-    background-image: url('static/picture_palace_hub/img/cinema_bckgrnd.jpg');
+    color: antiquewhite;
+    background-image: var(--background-image);
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+h2, h2 a {
+    color: burlywood;
+    text-shadow: 2px 2px 4px #000000;
 }
 
 .navigation ul {
@@ -27,5 +37,91 @@ body {
 
 .navigation li a:hover {
     background-color: saddlebrown;
+    color: antiquewhite;
+    transform: scale(1.10);
+}
+
+.item img {
+    width: 250px;
+    height: 350px;
+    float: left;
+    padding: 10px;
+}
+
+.item-container, .form-container {
+    display: flex;
+    background-color: rgba(204, 159, 120, 0.3);
+    padding: 20px;
+    margin: 10px;
+
+}
+
+.hall-link a {
+    text-decoration: none;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+.hall-link a:visited {
+    color: whitesmoke;
+
+}
+
+.item-container:hover, .form-container:hover {
+    background-color: rgba(204, 159, 120, 0.5);
+}
+
+.button-link a {
+    display: inline-block;
+    margin: 30px;
+    padding: 20px 40px;
+    background-color: rgb(204, 159, 120);
+    color: antiquewhite;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.button-link a:hover {
+    transform: scale(1.2);
+}
+
+.page-link a {
+    /*margin: 80px 40px;*/
+    font-weight: bold;
+    text-align: center;
+}
+
+.page-link a:visited {
+    margin: 80px 40px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: sandybrown;
+}
+
+#orders {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#orders td, #orders th {
+    border: 1px solid burlywood;
+    padding: 8px;
+    text-align: left;
+}
+
+#orders tr:nth-child {
+    background-color: rgb(186, 115, 54);
+}
+
+#orders tr:hover {
+    background-color: sandybrown;
+}
+
+#orders th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: rgb(166, 83, 12);
     color: antiquewhite;
 }

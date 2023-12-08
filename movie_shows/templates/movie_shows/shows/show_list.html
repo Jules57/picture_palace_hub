@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Cinema Halls{% endblock %}
+
+{% block content %}
+    {% for show in shows %}
+        <div class="item-container">
+            <div class="item">
+                <h2><a href="{{ show.get_absolute_url }}">{{ show }}</a></h2>
+                <p>Movie: {{ show.movie }} </p>
+                <p>Hall: {{ show.movie_hall }}</p>
+                <p>Price: {{ show.ticket_price }} $</p>
+                <p>Start: {{ show.start_time }}</p>
+                <p>End: {{ show.end_time }}</p>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <span class="page-link">
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            </span>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <span class="page-link">
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            </span>
+        {% endif %}
+    </span>
+    </div>
+{% endblock %}

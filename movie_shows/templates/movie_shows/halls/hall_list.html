@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Cinema Halls{% endblock %}
+
+{% block content %}
+    {% for hall in halls %}
+        <div class="item-container">
+            <div class="item">
+                <div class="hall-link">
+                    <h2><a href="{{ hall.get_absolute_url }}">{{ hall.name }}</a></h2>
+                </div>
+                <p>Seats: {{ hall.seats }} </p>
+                <p>Screen size: {{ hall.screen_size }}</p>
+                <p>Screen type: {{ hall.screen_type }}</p>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="button-link">
+        <a href="{% url 'shows:create_hall' %}">Add hall</a>
+    </div>
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <span class="page-link">
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            </span>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <span class="page-link">
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            </span>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

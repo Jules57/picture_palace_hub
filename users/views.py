@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 from users.forms import RegisterForm
+from users.models import CustomerProfile, Order, Customer
 
 
 class RegisterView(CreateView):
@@ -21,4 +22,16 @@ class Login(LoginView):
 
 
 class Logout(LoginRequiredMixin, LogoutView):
-    next_page = reverse_lazy('users:login')
+    login_url = reverse_lazy('users:login')
+    next_page = reverse_lazy('shows:show_list')
+
+
+class CustomerDetailView(LoginRequiredMixin, DetailView):
+    model = Customer
+    template_name = 'users/user_profile.html'
+    context_object_name = 'user'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['orders'] = Order.objects.filter(customer=self.object).all()
+        return context
