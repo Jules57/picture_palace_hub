@@ -1,5 +1,4 @@
 from django.contrib.auth import logout
-from django.utils import timezone
 from django.utils.deprecation import MiddlewareMixin
 from picture_palace_hub import settings
 import datetime

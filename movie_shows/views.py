@@ -1,19 +1,20 @@
-from django.contrib.auth.mixins import UserPassesTestMixin, AccessMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from movie_shows.forms import CinemaHallCreateForm, MovieShowCreateForm
+from movie_shows.mixins import AdminRequiredMixin
 from movie_shows.models import CinemaHall, MovieShow, Movie
-
-
-class AdminRequiredMixin(UserPassesTestMixin, AccessMixin):
-    def test_func(self):
-        return self.request.user.is_superuser
 
 
 class CinemaHallDetailView(LoginRequiredMixin, DetailView):
     model = CinemaHall
     template_name = 'movie_shows/halls/hall_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shows'] = MovieShow.objects.filter(movie_hall=self.object.pk).order_by('-start_date')
+        return context
 
 
 class CinemaHallUpdateView(AdminRequiredMixin, UpdateView):
@@ -51,6 +52,7 @@ class MovieShowListView(ListView):
 
 
 class MovieShowDetailView(DetailView):
+    context_object_name = 'show'
     model = MovieShow
     template_name = 'movie_shows/shows/show_detail.html'
 

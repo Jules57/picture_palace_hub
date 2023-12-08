@@ -5,24 +5,25 @@ from django.urls import reverse
 class CinemaHall(models.Model):
     SCREEN_2D = '2D'
     SCREEN_3D = '3D'
-    SCREEN_TYPE_CHOICES = {
-        SCREEN_2D: '2D Screen',
-        SCREEN_3D: '3D Screen'
-    }
+    SCREEN_TYPE_CHOICES = [
+        (SCREEN_2D, '2D Screen'),
+        (SCREEN_3D, '3D Screen'),
+    ]
 
     STANDARD = 'Standard'
     LARGE = 'Large'
     PREMIUM = 'Premium'
-    SCREEN_SIZE_CHOICES = {
-        STANDARD: 'Standard',
-        LARGE: 'Large',
-        PREMIUM: 'Premium'
-    }
+    SCREEN_SIZE_CHOICES = [
+        (STANDARD, 'Standard'),
+        (LARGE, 'Large'),
+        (PREMIUM, 'Premium'),
+    ]
     name = models.CharField(max_length=200)
     seats = models.PositiveIntegerField()
     screen_size = models.CharField(
             choices=SCREEN_SIZE_CHOICES,
-            default=STANDARD
+            default=STANDARD,
+            max_length=50,
     )
     screen_type = models.CharField(
             max_length=2,
