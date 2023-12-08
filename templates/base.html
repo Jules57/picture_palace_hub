@@ -14,9 +14,9 @@
 
 <nav class="navigation">
     <ul>
-{#        <li><a href="{% url '' %}">Home</a></li>#}
-{#        <li><a href="{% url '*' %}">Topics</a></li>#}
-{#        <li><a href="{% url '*' %}">About</a></li>#}
+        <li><a href="{% url 'shows:hall_list' %}">Halls</a></li>
+        <li><a href="{% url 'shows:show_list' %}">Shows</a></li>
+        <li><a href="{% url 'shows:movie_list' %}">Movies</a></li>
 {#        <li><a href="{% url '*' %}">Create article</a></li>#}
         {% if request.user.is_authenticated %}
             <li><a href="{% url 'users:logout' %}">Logout</a></li>
