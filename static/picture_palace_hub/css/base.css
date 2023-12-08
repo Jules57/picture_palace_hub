@@ -1,0 +1,31 @@
+body {
+    font-family: sans-serif;
+    background-image: url('static/picture_palace_hub/img/cinema_bckgrnd.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.navigation ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: brown;
+}
+
+.navigation li {
+    float: left;
+}
+
+.navigation li a {
+    display: block;
+    color: navajowhite;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navigation li a:hover {
+    background-color: saddlebrown;
+    color: antiquewhite;
+}

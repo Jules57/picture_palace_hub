@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Picture Palace Hub{% endblock %}</title>
+    <link href="{% static "picture_palace_hub/css/base.css" %}" rel="stylesheet">
+</head>
+
+<body>
+<header>
+    <h1>PICTURE PALACE HUB</h1>
+</header>
+
+<nav class="navigation">
+    <ul>
+{#        <li><a href="{% url '' %}">Home</a></li>#}
+{#        <li><a href="{% url '*' %}">Topics</a></li>#}
+{#        <li><a href="{% url '*' %}">About</a></li>#}
+{#        <li><a href="{% url '*' %}">Create article</a></li>#}
+        {% if request.user.is_authenticated %}
+            <li><a href="{% url 'users:logout' %}">Logout</a></li>
+{#            <li><a href="{% url 'users:profile' user.pk %}">Profile</a></li>#}
+
+        {% else %}
+            <li><a href="{% url 'users:login' %}">Login</a></li>
+            <li><a href="{% url 'users:register' %}">Register</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+<div class="content">
+{% block content %}
+{% endblock %}
+</div>
+
+</body>
+</html>
