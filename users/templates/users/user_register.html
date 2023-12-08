@@ -4,9 +4,11 @@
 
 {% block content %}
     <h2>Registration Form</h2>
-    <form action="" method="post" title="Registration form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Sign Up">
-    </form>
+    <div class="form-container">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Sign Up">
+        </form>
+    </div>
 {% endblock %}
