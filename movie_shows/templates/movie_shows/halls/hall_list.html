@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Cinema Halls{% endblock %}
+
+{% block content %}
+    {% for hall in halls %}
+        <div class="item-container">
+            <div class="item">
+                <div class="hall-link">
+                    <h2><a href="{{ hall.get_absolute_url }}">{{ hall.name }}</a></h2>
+                </div>
+                <p>Seats: {{ hall.seats }} </p>
+                <p>Screen size: {{ hall.screen_size }}</p>
+                <p>Screen type: {{ hall.screen_type }}</p>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="button-link">
+        <a href="{% url 'shows:create_hall' %}">Add hall</a>
+
+    </div>
+{% endblock %}

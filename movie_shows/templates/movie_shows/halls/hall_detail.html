@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ object.name }}{% endblock %}
+
+{% block content %}
+    <div class="item-container">
+        <div class="item">
+            <h2>{{ object.name }}</h2>
+            <p>Seats: {{ object.seats }} </p>
+            <p>Screen size: {{ object.screen_size }}</p>
+            <p>Screen type: {{ object.screen_type }}</p>
+        </div>
+    </div>
+    <div class="button-link">
+        <a href="{% url 'shows:update_hall' object.pk %}">Change hall info</a>
+    </div>
+    {#    {% if object.shows %}#}
+    {#        #}
+    {#        {% else %}#}
+    {#        <p>Sorry, it seems there are no shows in this hall yet.</p>#}
+    {#    {% endif %}#}
+
+{% endblock %}

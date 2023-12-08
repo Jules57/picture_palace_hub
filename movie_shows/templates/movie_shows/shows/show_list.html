@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Cinema Halls{% endblock %}
+
+{% block content %}
+    {% for show in shows %}
+        <h2><a href="{{ show.get_absolute_url }}">{{ show }}</a></h2>
+        <p>Movie: {{ show.movie }} </p>
+        <p>Hall: {{ show.movie_hall }}</p>
+        <p>Price: {{ show.ticket_price }}</p>
+        <p>Start: {{ show.start_time }}</p>
+        <p>End: {{ show.end_time }}</p>
+    {% endfor %}
+{% endblock %}

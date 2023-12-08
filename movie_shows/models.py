@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class CinemaHall(models.Model):
@@ -32,6 +33,9 @@ class CinemaHall(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+    def get_absolute_url(self):
+        return reverse('shows:hall_detail', args=[self.id])
+
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)
@@ -61,3 +65,6 @@ class MovieShow(models.Model):
 
     def __str__(self):
         return f'Show {self.id} at {self.start_time}'
+
+    def get_absolute_url(self):
+        return reverse('shows:show_detail', args=[self.id])

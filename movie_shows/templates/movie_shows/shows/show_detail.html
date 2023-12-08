@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cinema Halls{% endblock %}
+
+{% block content %}
+    <h2>{{ show }}</h2>
+    <img src="{% if show.movie.poster %}{{ show.movie.poster.url }}{% else %}{% static "picture_palace_hub/img/movie_poster.jpg" %}{% endif %}" alt="Movie poster">
+    <p>Movie: {{ show.movie.title }} </p>
+    <p>Description: {{ show.movie.description }}</p>
+    <p>Movie duration: {{ show.movie.duration_in_minutes }} min.</p>
+    <p>Director: {{ show.movie.director }}</p>
+    <p>Hall: {{ show.movie_hall }}</p>
+    <p>Total seats: {{ show.movie_hall.seats }}</p>
+    <p>Available seats: {{ available_seats }}</p>
+    <p>Price: {{ show.ticket_price }}</p>
+    <p>Start: {{ show.start_time }}</p>
+    <p>End: {{ show.end_time }}</p>
+{% endblock %}

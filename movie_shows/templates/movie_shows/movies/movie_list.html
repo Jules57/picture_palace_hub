@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Now Running{% endblock %}
+
+{% block content %}
+    {% for movie in movies %}
+        <div class="item-container">
+            <div class="item">
+                <img src="
+                        {% if movie.poster %}{{ movie.poster.url }}{% else %}{% static "picture_palace_hub/img/movie_poster.jpg" %}{% endif %}"
+                     alt="Movie poster">
+                <p style="font-size: 28px; font-weight: bold; text-shadow: 2px 2px 4px #000000;">{{ movie.title }}</p>
+                <p>Description: {{ movie.description }}</p>
+                <p>Duration: {{ movie.duration_in_minutes }} min.</p>
+                <p>Director: {{ movie.director }}</p>
+            </div>
+        </div>
+
+    {% endfor %}
+{% endblock %}
