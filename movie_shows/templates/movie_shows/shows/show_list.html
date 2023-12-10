@@ -1,15 +1,31 @@
 {% extends 'base.html' %}
 
-{% block title %}Cinema Halls{% endblock %}
+{% block title %}Movie Shows{% endblock %}
 
 {% block content %}
+    <form method="get" action="{% url 'shows:show_list' %}">
+        <label for="sort_by">Sort by:</label>
+        <select name="sort_by" id="sort_by">
+            <option value="start_time">Start Time</option>
+            <option value="ticket_price">Price</option>
+        </select>
+
+        <label for="sort_order">Sort order:</label>
+        <select name="sort_order" id="sort_order">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+
+        <button type="submit">Sort shows</button>
+    </form>
+
     {% for show in shows %}
         <div class="item-container">
             <div class="item">
                 <h2><a href="{{ show.get_absolute_url }}">{{ show }}</a></h2>
                 <p>Movie: {{ show.movie }} </p>
                 <p>Hall: {{ show.movie_hall }}</p>
-                <p>Price: {{ show.ticket_price }} $</p>
+                <p>Price: ${{ show.ticket_price }}</p>
                 <p>Start: {{ show.start_time }}</p>
                 <p>End: {{ show.end_time }}</p>
             </div>
@@ -34,4 +50,9 @@
         {% endif %}
     </span>
     </div>
+
+    <div class="button-link">
+        <a href="{% url 'shows:create_show' object.pk %}">Add new show</a>
+    </div>
+
 {% endblock %}

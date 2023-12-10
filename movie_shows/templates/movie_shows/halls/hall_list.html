@@ -15,9 +15,11 @@
             </div>
         </div>
     {% endfor %}
+
     <div class="button-link">
         <a href="{% url 'shows:create_hall' %}">Add hall</a>
     </div>
+
     <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}

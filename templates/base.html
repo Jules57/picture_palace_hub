@@ -4,7 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Picture Palace Hub{% endblock %}</title>
+    <link rel="icon" href="{% static 'picture_palace_hub/img/favicon.ico' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'picture_palace_hub/img/favicon.ico' %}" type="image/x-icon">
     <link href="{% static "picture_palace_hub/css/base.css" %}" rel="stylesheet">
+{#    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>#}
+{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">#}
+{#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>#}
+
 </head>
 
 <body>
@@ -17,7 +23,7 @@
         <li><a href="{% url 'shows:hall_list' %}">Halls</a></li>
         <li><a href="{% url 'shows:show_list' %}">Shows</a></li>
         <li><a href="{% url 'shows:movie_list' %}">Movies</a></li>
-        {#        <li><a href="{% url '*' %}">Create article</a></li>#}
+    
         {% if request.user.is_authenticated %}
             <li><a href="{% url 'users:logout' %}">Log Out</a></li>
             <li><a href="{% url 'users:profile' user.pk %}">Profile</a></li>
