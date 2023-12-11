@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from users.models import Customer, Order, CustomerProfile
+from movie_shows.models import Order
+from users.models import Customer, CustomerProfile
 
 
 @admin.register(Customer)

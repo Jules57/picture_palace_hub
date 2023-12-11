@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView
 
 from users.forms import RegisterForm
-from users.models import CustomerProfile, Order, Customer
+from users.models import CustomerProfile, Customer
 
 
 class RegisterView(CreateView):

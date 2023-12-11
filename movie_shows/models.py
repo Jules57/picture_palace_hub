@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 
+from users.models import Customer
+
 
 class CinemaHall(models.Model):
     SCREEN_2D = '2D'
@@ -69,3 +71,14 @@ class MovieShow(models.Model):
 
     def get_absolute_url(self):
         return reverse('shows:show_detail', args=[self.id])
+
+
+class Order(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')
+    movie_show = models.ForeignKey(MovieShow, on_delete=models.CASCADE, related_name='orders')
+    seat_quantity = models.PositiveIntegerField()
+    total_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    ordered_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Order {self.id} by {self.customer.username}'
