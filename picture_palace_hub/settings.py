@@ -143,3 +143,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TIME_SINCE_LAST_ACTION = 3 * 60  # seconds
+
+TIME_FORMAT = 'H:i:s'

@@ -7,9 +7,6 @@
     <link rel="icon" href="{% static 'picture_palace_hub/img/favicon.ico' %}" type="image/x-icon">
     <link rel="shortcut icon" href="{% static 'picture_palace_hub/img/favicon.ico' %}" type="image/x-icon">
     <link href="{% static "picture_palace_hub/css/base.css" %}" rel="stylesheet">
-{#    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>#}
-{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">#}
-{#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>#}
 
 </head>
 
@@ -20,17 +17,19 @@
 
 <nav class="navigation">
     <ul>
-        <li><a href="{% url 'shows:hall_list' %}">Halls</a></li>
-        <li><a href="{% url 'shows:show_list' %}">Shows</a></li>
-        <li><a href="{% url 'shows:movie_list' %}">Movies</a></li>
+        <li><a href="{% url 'shows:hall_list' %}">HALLS</a></li>
+        <li><a href="{% url 'shows:show_list' %}">SHOWS</a></li>
+        <li><a href="{% url 'shows:movie_list' %}">MOVIES</a></li>
+        <li><a href="{% url 'shows:show_list' %}?day=today">TODAY</a></li>
+        <li><a href="{% url 'shows:show_list' %}?day=next_day">TOMORROW</a></li>
     
         {% if request.user.is_authenticated %}
-            <li><a href="{% url 'users:logout' %}">Log Out</a></li>
-            <li><a href="{% url 'users:profile' user.pk %}">Profile</a></li>
+            <li><a href="{% url 'users:logout' %}">LOG OUT</a></li>
+            <li><a href="{% url 'users:profile' user.pk %}">PROFILE</a></li>
 
         {% else %}
-            <li><a href="{% url 'users:login' %}">Log In</a></li>
-            <li><a href="{% url 'users:register' %}">Register</a></li>
+            <li><a href="{% url 'users:login' %}">SIGN IN</a></li>
+            <li><a href="{% url 'users:register' %}">SIGN UP</a></li>
         {% endif %}
     </ul>
 </nav>

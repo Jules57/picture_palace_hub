@@ -13,6 +13,7 @@ body {
 h2, h2 a {
     color: burlywood;
     text-shadow: 2px 2px 4px #000000;
+    margin-left: 10px;
 }
 
 .navigation ul {
@@ -21,6 +22,12 @@ h2, h2 a {
     padding: 0;
     overflow: hidden;
     background-color: brown;
+}
+
+.navigation {
+    position: sticky;
+    padding: 10px 12px 10px 12px;
+    top: 0;
 }
 
 .navigation li {
@@ -36,9 +43,11 @@ h2, h2 a {
 }
 
 .navigation li a:hover {
-    background-color: saddlebrown;
+    background-color: firebrick;
     color: antiquewhite;
-    transform: scale(1.10);
+    transform: scale(1.20);
+    border: 1px solid;
+    border-radius: 5px;
 }
 
 .item img {
@@ -46,6 +55,23 @@ h2, h2 a {
     height: 350px;
     float: left;
     padding: 10px;
+}
+.item h2 {
+    margin: 0;
+}
+
+.show-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: start;
+}
+
+.item-show {
+    background-color: rgba(204, 159, 120, 0.3);
+    padding: 20px;
+    text-align: left;
+    margin-right: 30px;
 }
 
 .item-container, .form-container {
@@ -86,7 +112,6 @@ h2, h2 a {
 }
 
 .page-link a {
-    /*margin: 80px 40px;*/
     font-weight: bold;
     text-align: center;
 }
@@ -124,4 +149,104 @@ h2, h2 a {
     text-align: left;
     background-color: rgb(166, 83, 12);
     color: antiquewhite;
+}
+
+.sorting-form {
+    position: fixed;
+    right: 15px;
+    top: 0px;
+    padding: 10px;
+    font-size: 18px;
+    z-index: 1000;
+    max-width: 50%;
+}
+
+.sorting-form select, .sorting-form option {
+    font-size: 16px;
+    color: antiquewhite;
+    background-color: rgb(186, 115, 54, 0.3);
+    padding: 10px;
+    margin: 10px;
+}
+
+#sort_by, #sort_order {
+    width: 20%;
+    margin-bottom: 10px;
+    background-color: rgb(186, 115, 54, 0.3);
+    color: antiquewhite;
+    border: 1px solid burlywood;
+    border-radius: 5px;
+    padding: 8px 8px;
+}
+
+.sorting-form button {
+    margin: 10px auto;
+    background-color: rgb(204, 159, 120);
+    color: antiquewhite;
+    border: none;
+    padding: 5px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.sorting-form select option {
+    font-size: 16px;
+    color: antiquewhite;
+    background-color: rgb(186, 115, 54, 0.3);
+    padding: 10px;
+    margin: 10px;
+}
+
+.sorting-form select:hover {
+    outline: 2px solid #8B4513; /* Brown color */
+}
+
+form {
+    float: left;
+    padding: 10px;
+}
+
+form input[type="text"], form select, input[type="number"] {
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid burlywood;
+    border-radius: 5px;
+    font-size: 18px;
+    background-color: rgb(186, 115, 54, 0.3);
+    color: antiquewhite;
+
+}
+
+form input[type="submit"], input [type="password"] {
+    background-color: rgb(204, 159, 120);
+    color: antiquewhite;
+    border: none;
+    padding: 5px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+input[type="date"] {
+    font-size: 18px;
+    color: antiquewhite;
+    background-color: rgb(186, 115, 54, 0.3);
+    padding: 5px;
+    border: 1px solid burlywood;
+    border-radius: 5px;
+}
+
+input[type="time"] {
+    font-size: 18px;
+    color: antiquewhite;
+    background-color: rgb(186, 115, 54, 0.3);
+    padding: 5px;
+    border: 1px solid burlywood;
+    border-radius: 5px;
+}
+
+input[type="date"]:focus,
+input[type="time"]:focus {
+    outline: 2px solid antiquewhite; /* Brown color */
 }

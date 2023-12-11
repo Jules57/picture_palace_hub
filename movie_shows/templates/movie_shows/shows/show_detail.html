@@ -18,8 +18,13 @@
             <p>Total seats: {{ show.movie_hall.seats }}</p>
             <p>Available seats: {{ available_seats }}</p>
             <p>Price: ${{ show.ticket_price }}</p>
-            <p>Start: {{ show.start_time }}</p>
-            <p>End: {{ show.end_time }}</p>
+            <p>Start: {{ show.start_time|time:"H:i" }}</p>
+            <p>End: {{ show.end_time|time:"H:i" }}</p>
         </div>
+    </div>
+
+    <div class="button-link">
+    <a href="{% url 'shows:update_show' object.pk %}">Edit this Movie Show</a>
+    <a href="{% url 'shows:delete_show' object.pk %}">Delete this Movie Show</a>
     </div>
 {% endblock %}

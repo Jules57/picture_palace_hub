@@ -19,18 +19,18 @@
 
     <h2>Movie Shows in this Hall</h2>
     {% if shows %}
-        <div class="item-container">
+        <div class="show-container">
             {% for show in shows %}
-                <div class="item">
-                <h2><a href="{{ show.get_absolute_url }}">{{ show }}</a></h2>
-                <p>Movie: {{ show.movie.title }} by {{ show.movie.director }}</p>
-                <p>Total seats: {{ show.movie_hall.seats }}</p>
-                <p>Sold seats: {{ sold_seats }}</p>
-                <p>Price: ${{ show.ticket_price }}</p>
-                <p>Start: {{ show.start_time }}</p>
-                <p>End: {{ show.end_time }}</p>
+                <div class="item-show">
+                    <h2><a href="{{ show.get_absolute_url }}">{{ show }}</a></h2>
+                    <p>Movie: {{ show.movie.title }} by {{ show.movie.director }}</p>
+                    <p>Total seats: {{ show.movie_hall.seats }}</p>
+                    <p>Sold seats: {{ sold_seats }}</p>
+                    <p>Price: ${{ show.ticket_price }}</p>
+                    <p>Start: {{ show.start_time|time:"H:i" }}</p>
+                    <p>End: {{ show.end_time|time:"H:i" }}</p>
+                </div>
             {% endfor %}
-            </div>
         </div>
 
     {% else %}
