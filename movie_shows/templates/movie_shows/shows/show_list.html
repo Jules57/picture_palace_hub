@@ -1,20 +1,48 @@
 {% extends 'base.html' %}
 
-{% block title %}Cinema Halls{% endblock %}
+{% block title %}Movie Shows{% endblock %}
 
 {% block content %}
+    {% include 'messages.html' %}
+
+    <form class="sorting-form" method="get" action="{% url 'shows:show_list' %}">
+        <label for="sort_by">Sort by:</label>
+        <select name="sort_by" id="sort_by">
+            <option value="start_time" {% if sort_by == 'start_date' %}selected{% endif %}>Start Time</option>
+            <option value="ticket_price" {% if sort_by == 'ticket_price' %}selected{% endif %}>Price</option>
+        </select>
+
+        <label for="sort_order">Sort order:</label>
+        <select name="sort_order" id="sort_order">
+            <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>Ascending</option>
+            <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Descending</option>
+        </select>
+
+        <button type="submit">Sort shows</button>
+    </form>
+
+
     {% for show in shows %}
         <div class="item-container">
             <div class="item">
                 <h2><a href="{{ show.get_absolute_url }}">{{ show }}</a></h2>
                 <p>Movie: {{ show.movie }} </p>
                 <p>Hall: {{ show.movie_hall }}</p>
-                <p>Price: {{ show.ticket_price }} $</p>
-                <p>Start: {{ show.start_time }}</p>
-                <p>End: {{ show.end_time }}</p>
+                <p>Price: ${{ show.ticket_price }}</p>
+                <p>Sold seats: {{ show.sold_seats }}</p>
+                <p>Total seats: {{ show.movie_hall.seats }}</p>
+                <p>Start time: {{ show.start_time|time:"H:i" }}</p>
+                <p>End time: {{ show.end_time|time:"H:i" }}</p>
+                <p>Running from {{ show.start_date }} to {{ show.end_date }}</p>
             </div>
         </div>
     {% endfor %}
+    {% if request.user.is_superuser %}
+        <div class="button-link">
+            <a href="{% url 'shows:create_show' %}">Add new show</a>
+        </div>
+    {% endif %}
+
     <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
@@ -34,4 +62,5 @@
         {% endif %}
     </span>
     </div>
+
 {% endblock %}

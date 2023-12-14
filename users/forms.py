@@ -8,9 +8,3 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = Customer
         fields = ['username', 'image']
-
-
-class LogoutForm(forms.ModelForm):
-    class Meta:
-        model = Customer
-        fields = []

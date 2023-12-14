@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Cinema Halls{% endblock %}
+{% block title %}Movie Show{% endblock %}
 
 {% block content %}
+    {% include 'messages.html' %}
+
     <div class="item-container">
         <div class="item">
             <h2>{{ show }}</h2>
             <img src="
+
+
+
                     {% if show.movie.poster %}{{ show.movie.poster.url }}{% else %}{% static "picture_palace_hub/img/movie_poster.jpg" %}{% endif %}"
                  alt="Movie poster">
             <p>Movie: {{ show.movie.title }} </p>
@@ -17,9 +22,25 @@
             <p>Hall: {{ show.movie_hall }}</p>
             <p>Total seats: {{ show.movie_hall.seats }}</p>
             <p>Available seats: {{ available_seats }}</p>
-            <p>Price: {{ show.ticket_price }}</p>
-            <p>Start: {{ show.start_time }}</p>
-            <p>End: {{ show.end_time }}</p>
+            <p>Price: ${{ show.ticket_price }}</p>
+            <p>Start: {{ show.start_time|time:"H:i" }}</p>
+            <p>End: {{ show.end_time|time:"H:i" }}</p>
         </div>
+
+        {% if request.user.is_authenticated %}
+            <form action="{% url 'shows:create_order' object.pk %}" method="post">
+                {% csrf_token %}
+                {{ order_form.as_p }}
+                <p>Price: ${{ show.ticket_price }} per seat</p>
+                <input type="submit" value="Buy">
+            </form>
+        {% endif %}
     </div>
+    {% if request.user.is_superuser %}
+        <div class="button-link">
+            <a href="{% url 'shows:update_show' object.pk %}">Edit this Movie Show</a>
+            <a href="{% url 'shows:delete_show' object.pk %}">Delete this Movie Show</a>
+        </div>
+    {% endif %}
+
 {% endblock %}
