@@ -3,26 +3,30 @@
 {% block title %}My Profile{% endblock %}
 
 {% block content %}
-    <h2>My Orders</h2>
-    <div class="item-container">
-        <table id="orders">
-            <tr>
-                <th>Order ID</th>
-                <th>Movie</th>
-                <th>Ticket Number</th>
-                <th>Date</th>
-                <th>Cost</th>
-            </tr>
-            {% for order in orders %}
+    {% if request.user.is_authenticated %}
+        <h2>My Orders</h2>
+        <div class="item-container">
+            <table id="orders">
                 <tr>
-                    <td>{{ order.pk }}</td>
-                    <td>{{ order.movie_show.movie.title }}</td>
-                    <td>{{ order.seat_quantity }}</td>
-                    <td>{{ order.ordered_at }}</td>
-                    <td>{{ order.total_cost }}</td>
+                    <th>Order ID</th>
+                    <th>Movie</th>
+                    <th>Ticket Quantity</th>
+                    <th>Date</th>
+                    <th>Total Ticket Cost</th>
                 </tr>
-            {% endfor %}
-
-        </table>
-    </div>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.pk }}</td>
+                        <td>{{ order.movie_show.movie.title }}</td>
+                        <td>{{ order.seat_quantity }}</td>
+                        <td>{{ order.ordered_at }}</td>
+                        <td>${{ order.total_cost }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="5" style="text-align: end">Total amount: ${{ total_spent }}</td>
+                </tr>
+            </table>
+        </div>
+    {% endif %}
 {% endblock %}

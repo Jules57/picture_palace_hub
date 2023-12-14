@@ -3,6 +3,7 @@
 {% block title %}Cinema Halls{% endblock %}
 
 {% block content %}
+    {% include 'messages.html' %}
     {% for hall in halls %}
         <div class="item-container">
             <div class="item">
@@ -15,10 +16,11 @@
             </div>
         </div>
     {% endfor %}
-
-    <div class="button-link">
-        <a href="{% url 'shows:create_hall' %}">Add hall</a>
-    </div>
+    {% if request.user.is_superuser %}
+        <div class="button-link">
+            <a href="{% url 'shows:create_hall' %}">Add hall</a>
+        </div>
+    {% endif %}
 
     <div class="pagination">
     <span class="step-links">
@@ -38,5 +40,5 @@
             </span>
         {% endif %}
     </span>
-</div>
+    </div>
 {% endblock %}

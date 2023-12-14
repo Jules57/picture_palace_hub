@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-
 class Customer(AbstractUser):
     image = models.ImageField(
             upload_to='user_images/',
@@ -10,11 +9,3 @@ class Customer(AbstractUser):
             null=True,
             blank=True)
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=10000000)
-
-
-class CustomerProfile(models.Model):
-    customer = models.OneToOneField(Customer, on_delete=models.CASCADE, related_name='profile')
-    total_spent = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-
-    def __str__(self):
-        return f'{self.customer.username}'

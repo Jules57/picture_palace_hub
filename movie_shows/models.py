@@ -67,7 +67,7 @@ class MovieShow(models.Model):
     ticket_price = models.DecimalField(max_digits=6, decimal_places=2)
 
     def __str__(self):
-        return f'Show {self.id} at {self.start_time}'
+        return f'{self.movie} at {self.start_time}'
 
     def get_absolute_url(self):
         return reverse('shows:show_detail', args=[self.id])

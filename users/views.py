@@ -1,11 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.db.models import Sum
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView
 
 from movie_shows.models import Order
 from users.forms import RegisterForm
-from users.models import CustomerProfile, Customer
+from users.models import Customer
 
 
 class RegisterView(CreateView):
@@ -35,4 +36,6 @@ class CustomerDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['orders'] = Order.objects.filter(customer=self.object).all()
+        total_spent = Order.objects.filter(customer=self.object).aggregate(Sum('total_cost'))
+        context['total_spent'] = total_spent['total_cost__sum']
         return context

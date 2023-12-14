@@ -4,11 +4,13 @@
 
 {% block content %}
     <h2>Create new hall</h2>
-    <div class="form-container">
+    {% if request.user.is_superuser %}
+        <div class="form-container">
         <form action="" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" value="Add Hall">
         </form>
-    </div>
+    {% endif %}
+</div>
 {% endblock %}

@@ -4,20 +4,14 @@
 {% block title %}Movie Show{% endblock %}
 
 {% block content %}
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags == 'success' %} class="success-message"{% elif message.tags == 'error' %}
-                                                      class="error-message"{% endif %}>
-                    {{ message }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    {% include 'messages.html' %}
+
     <div class="item-container">
         <div class="item">
             <h2>{{ show }}</h2>
             <img src="
+
+
 
                     {% if show.movie.poster %}{{ show.movie.poster.url }}{% else %}{% static "picture_palace_hub/img/movie_poster.jpg" %}{% endif %}"
                  alt="Movie poster">
@@ -49,10 +43,4 @@
         </div>
     {% endif %}
 
-    {#    {% if request.user.is_superuser %}#}
-    {#        <form action="{% url 'shows:delete_show' object.pk %}" method="post">#}
-    {#            {% csrf_token %}#}
-    {#            <input type="submit" value="Delete this show">#}
-    {#        </form>#}
-    {#{% endif %}#}
 {% endblock %}

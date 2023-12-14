@@ -17,28 +17,6 @@ class CinemaHallCreateForm(forms.ModelForm):
         fields = '__all__'
 
 
-class CinemaHallUpdateForm(forms.ModelForm):
-    class Meta:
-        model = CinemaHall
-        fields = '__all__'
-
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
-        super(CinemaHallUpdateForm, self).__init__(*args, **kwargs)
-
-    def clean(self):
-        cleaned_data = super().clean()
-        hall = self.instance.pk
-
-        running_shows = MovieShow.objects.filter(movie_hall=hall)
-        for show in running_shows:
-            if show.sold_seats > 0:
-                self.add_error('seats', 'sold_seats')
-                messages.error(self.request,
-                               "Cannot update. Seats have been booked for the show in this movie hall.")
-                # raise exceptions.SeatsSoldException
-
-
 class MovieShowCreateForm(forms.ModelForm):
     class Meta:
         model = MovieShow
