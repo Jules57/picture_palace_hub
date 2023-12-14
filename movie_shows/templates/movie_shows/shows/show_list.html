@@ -3,6 +3,16 @@
 {% block title %}Movie Shows{% endblock %}
 
 {% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags == 'success' %} class="success-message"{% elif message.tags == 'error' %}
+                                                      class="error-message"{% endif %}>
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
     <form class="sorting-form" method="get" action="{% url 'shows:show_list' %}">
         <label for="sort_by">Sort by:</label>
@@ -20,16 +30,6 @@
         <button type="submit">Sort shows</button>
     </form>
 
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags == 'success' %} class="success-message"{% elif message.tags == 'error' %}
-                                                      class="error-message"{% endif %}>
-                    {{ message }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
 
     {% for show in shows %}
         <div class="item-container">
@@ -38,17 +38,19 @@
                 <p>Movie: {{ show.movie }} </p>
                 <p>Hall: {{ show.movie_hall }}</p>
                 <p>Price: ${{ show.ticket_price }}</p>
-                <p>Available seats: {{ available_seats }}</p>
+                <p>Sold seats: {{ show.sold_seats }}</p>
+                <p>Total seats: {{ show.movie_hall.seats }}</p>
                 <p>Start time: {{ show.start_time|time:"H:i" }}</p>
                 <p>End time: {{ show.end_time|time:"H:i" }}</p>
                 <p>Running from {{ show.start_date }} to {{ show.end_date }}</p>
             </div>
         </div>
     {% endfor %}
-
-    <div class="button-link">
-        <a href="{% url 'shows:create_show' %}">Add new show</a>
-    </div>
+    {% if request.user.is_superuser %}
+        <div class="button-link">
+            <a href="{% url 'shows:create_show' %}">Add new show</a>
+        </div>
+    {% endif %}
 
     <div class="pagination">
     <span class="step-links">

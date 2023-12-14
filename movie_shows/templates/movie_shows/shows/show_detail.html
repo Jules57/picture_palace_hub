@@ -1,13 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Cinema Halls{% endblock %}
+{% block title %}Movie Show{% endblock %}
 
 {% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags == 'success' %} class="success-message"{% elif message.tags == 'error' %}
+                                                      class="error-message"{% endif %}>
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <div class="item-container">
         <div class="item">
             <h2>{{ show }}</h2>
             <img src="
+
                     {% if show.movie.poster %}{{ show.movie.poster.url }}{% else %}{% static "picture_palace_hub/img/movie_poster.jpg" %}{% endif %}"
                  alt="Movie poster">
             <p>Movie: {{ show.movie.title }} </p>
@@ -21,10 +32,27 @@
             <p>Start: {{ show.start_time|time:"H:i" }}</p>
             <p>End: {{ show.end_time|time:"H:i" }}</p>
         </div>
-    </div>
 
-    <div class="button-link">
-    <a href="{% url 'shows:update_show' object.pk %}">Edit this Movie Show</a>
-    <a href="{% url 'shows:delete_show' object.pk %}">Delete this Movie Show</a>
+        {% if request.user.is_authenticated %}
+            <form action="{% url 'shows:create_order' object.pk %}" method="post">
+                {% csrf_token %}
+                {{ order_form.as_p }}
+                <p>Price: ${{ show.ticket_price }} per seat</p>
+                <input type="submit" value="Buy">
+            </form>
+        {% endif %}
     </div>
+    {% if request.user.is_superuser %}
+        <div class="button-link">
+            <a href="{% url 'shows:update_show' object.pk %}">Edit this Movie Show</a>
+            <a href="{% url 'shows:delete_show' object.pk %}">Delete this Movie Show</a>
+        </div>
+    {% endif %}
+
+    {#    {% if request.user.is_superuser %}#}
+    {#        <form action="{% url 'shows:delete_show' object.pk %}" method="post">#}
+    {#            {% csrf_token %}#}
+    {#            <input type="submit" value="Delete this show">#}
+    {#        </form>#}
+    {#{% endif %}#}
 {% endblock %}

@@ -76,7 +76,7 @@ class MovieShow(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')
     movie_show = models.ForeignKey(MovieShow, on_delete=models.CASCADE, related_name='orders')
-    seat_quantity = models.PositiveIntegerField()
+    seat_quantity = models.PositiveIntegerField(default=1)
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     ordered_at = models.DateField(auto_now_add=True)
 

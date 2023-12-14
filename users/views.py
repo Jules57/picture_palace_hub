@@ -3,6 +3,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView
 
+from movie_shows.models import Order
 from users.forms import RegisterForm
 from users.models import CustomerProfile, Customer
 

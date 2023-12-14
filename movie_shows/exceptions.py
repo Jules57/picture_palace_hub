@@ -16,3 +16,7 @@ class NoFreeSeatsException(Exception):
 
 class SeatsSoldException(Exception):
     pass
+
+
+class InsufficientBalanceException(Exception):
+    pass
