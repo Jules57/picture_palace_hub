@@ -1,7 +1,11 @@
+from django.db import transaction
 from rest_framework import serializers
 
-from movie_shows.api import validators
-from movie_shows.models import CinemaHall, MovieShow, Movie
+from movie_shows.api.validators import validate_collisions, validate_past_date, validate_time_range, \
+    validate_date_range, check_balance, validate_available_seats
+from movie_shows.models import CinemaHall, MovieShow, Movie, Order
+from users.api.serializers import CustomerSerializer
+from users.models import Customer
 
 
 class MovieReadSerializer(serializers.ModelSerializer):
@@ -36,14 +40,14 @@ class MovieShowWriteSerializer(serializers.ModelSerializer):
         end_time = data.get('end_time', self.instance.end_time if self.instance else None)
         movie_hall = data.get('movie_hall', self.instance.movie_hall if self.instance else None)
 
-        validators.validate_date_range(start_date, end_date)
-        validators.validate_time_range(start_time, end_time)
-        validators.validate_past_date(end_date)
+        validate_date_range(start_date, end_date)
+        validate_time_range(start_time, end_time)
+        validate_past_date(end_date)
 
         if self.instance:
             if self.instance.sold_seats > 0:
                 raise serializers.ValidationError('You cannot delete or update a movie show with sold seats.')
-            validators.validate_collisions(self, movie_hall, start_date, end_date, start_time, end_time)
+            validate_collisions(self, movie_hall, start_date, end_date, start_time, end_time)
         return data
 
 
@@ -64,3 +68,40 @@ class CinemaHallWriteSerializer(serializers.ModelSerializer):
         if any([show.sold_seats > 0 for show in self.instance.shows.all()]):
             raise serializers.ValidationError('You cannot modify a cinema hall with booked shows.')
         return data
+
+
+class OrderReadSerializer(serializers.ModelSerializer):
+    customer = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ['id', 'customer', 'movie_show', 'seat_quantity', 'total_cost', 'ordered_at']
+
+
+class OrderWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['id', 'customer', 'movie_show', 'seat_quantity', 'total_cost', 'ordered_at']
+        read_only_fields = ['customer']
+
+    def validate_seat_quantity(self, value):
+        if value < 1:
+            raise serializers.ValidationError('Please choose at least one seat.')
+        return value
+
+    def validate(self, data):
+        movie_show = data['movie_show']
+        seat_quantity = data['seat_quantity']
+
+        validate_available_seats(movie_show, seat_quantity)
+        check_balance(movie_show, seat_quantity, customer=self.context['request'].user)
+        return data
+
+    def create(self, validated_data):
+        try:
+            with transaction.atomic():
+                order = super().create(validated_data)
+
+            return order
+        except Exception as e:
+            raise serializers.ValidationError(str(e))

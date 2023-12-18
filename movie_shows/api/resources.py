@@ -4,11 +4,12 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.datetime_safe import datetime
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from movie_shows.api.mixins import CheckSoldSeatsMixin
 from movie_shows.api.serializers import CinemaHallWriteSerializer, CinemaHallReadSerializer, MovieShowWriteSerializer, \
-    MovieShowReadSerializer, MovieReadSerializer
-from movie_shows.models import CinemaHall, MovieShow, Movie
+    MovieShowReadSerializer, MovieReadSerializer, OrderReadSerializer, OrderWriteSerializer
+from movie_shows.models import CinemaHall, MovieShow, Movie, Order
 from users.api.permissions import IsAdminOrReadOnly
 
 
@@ -33,7 +34,7 @@ class MovieShowViewSet(CheckSoldSeatsMixin, viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
 
     def get_serializer_class(self):
-        if self.request.method != 'GET':
+        if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
             return MovieShowWriteSerializer
         return MovieShowReadSerializer
 
@@ -76,3 +77,16 @@ class MovieShowViewSet(CheckSoldSeatsMixin, viewsets.ModelViewSet):
                 queryset = queryset.order_by('-ticket_price')
 
         return queryset
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return OrderWriteSerializer
+        return OrderReadSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(customer=self.request.user)

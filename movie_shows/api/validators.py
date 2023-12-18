@@ -27,3 +27,18 @@ def validate_collisions(self, movie_hall, start_date, end_date, start_time, end_
         for show in previous_shows:
             if show.end_date > start_date and show.end_time > start_time:
                 raise serializers.ValidationError('This show collides with another show in this hall.')
+
+
+def validate_available_seats(movie_show, seat_quantity):
+    if movie_show and seat_quantity:
+        available_seats = movie_show.movie_hall.seats - movie_show.sold_seats
+        if seat_quantity > available_seats:
+            raise serializers.ValidationError('You specified more seats than available for this movie show.')
+
+        if seat_quantity > movie_show.movie_hall.seats:
+            raise serializers.ValidationError('You specified more seats than available in the movie hall.')
+
+
+def check_balance(movie_show, seat_quantity, customer):
+    if customer.balance < seat_quantity * movie_show.ticket_price:
+        raise serializers.ValidationError('Sorry, it seems you do not have enough funds to complete this transaction.')
