@@ -31,3 +31,5 @@ class CustomerRegisterSerializer(serializers.ModelSerializer):
             raise ValidationError('Passwords did not match.')
         attrs.pop('password2')
         return attrs
+
+# class CustomerProfileSerializer(serializers.ModelSerializer):
