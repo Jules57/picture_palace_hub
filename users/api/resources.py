@@ -20,7 +20,6 @@ class LogoutApiView(views.APIView):
 
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
-    authentication_classes = [BearerTokenAuthentication]
 
     def get_serializer_class(self):
         if self.request.method == 'POST':

@@ -15,8 +15,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 
 class CustomerOrderSerializer(serializers.ModelSerializer):
-
-    orders = OrderReadSerializer(many=True, read_only=True)
+    orders = OrderReadSerializer(many=True, source='orders')
     total_amount = serializers.SerializerMethodField()
 
     class Meta:
@@ -24,7 +23,8 @@ class CustomerOrderSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'orders', 'total_amount']
 
     def get_total_amount(self, instance):
-        total_amount = instance.orders.aggregate(Sum('total_cost')).get('total_cost__sum')
+        user = self.context['request'].user
+        total_amount = user.orders.aggregate(Sum('total_cost')).get('total_cost__sum')
         return total_amount or 0
 
 
