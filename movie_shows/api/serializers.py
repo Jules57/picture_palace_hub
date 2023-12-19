@@ -1,10 +1,9 @@
-from django.db import transaction
+from django.db.models import Sum
 from rest_framework import serializers
 
 from movie_shows.api.validators import validate_collisions, validate_past_date, validate_time_range, \
     validate_date_range, check_balance, validate_available_seats
 from movie_shows.models import CinemaHall, MovieShow, Movie, Order
-from users.api.serializers import CustomerSerializer
 from users.models import Customer
 
 
@@ -71,11 +70,10 @@ class CinemaHallWriteSerializer(serializers.ModelSerializer):
 
 
 class OrderReadSerializer(serializers.ModelSerializer):
-    customer = serializers.StringRelatedField(read_only=True)
-
     class Meta:
         model = Order
         fields = ['id', 'customer', 'movie_show', 'seat_quantity', 'total_cost', 'ordered_at']
+        read_only_fields = ['customer']
 
 
 class OrderWriteSerializer(serializers.ModelSerializer):
@@ -84,7 +82,6 @@ class OrderWriteSerializer(serializers.ModelSerializer):
         fields = ['id', 'customer', 'movie_show', 'seat_quantity', 'total_cost', 'ordered_at']
         read_only_fields = ['customer']
 
-    # 9998917, 00
     def validate_seat_quantity(self, value):
         if value < 1:
             raise serializers.ValidationError('Please choose at least one seat.')

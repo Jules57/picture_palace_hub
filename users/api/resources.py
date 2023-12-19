@@ -1,26 +1,13 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import views, status, viewsets
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.views import ObtainAuthToken
+
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from users.api.permissions import IsProfileOwner
-from users.api.serializers import CustomerSerializer, CustomerRegisterSerializer
+from users.api.serializers import CustomerSerializer, CustomerRegisterSerializer, CustomerOrderSerializer
 from users.models import Customer, BearerTokenAuthentication
-
-
-class AuthToken(ObtainAuthToken):
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data,
-                                           context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            'pk': user.pk,
-            'token': token.key,
-        })
 
 
 class LogoutApiView(views.APIView):
@@ -38,6 +25,8 @@ class CustomerViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CustomerRegisterSerializer
+        elif self.request.method == 'GET' and self.request.query_params.get('profile', '') == 'my':
+            return CustomerOrderSerializer
         return CustomerSerializer
 
     def get_permissions(self):

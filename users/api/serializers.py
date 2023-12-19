@@ -1,6 +1,8 @@
+from django.db.models import Sum
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from movie_shows.api.serializers import OrderReadSerializer
 from users.models import Customer
 
 
@@ -10,6 +12,20 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ['id', 'username', 'email']
+
+
+class CustomerOrderSerializer(serializers.ModelSerializer):
+
+    orders = OrderReadSerializer(many=True, read_only=True)
+    total_amount = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Customer
+        fields = ['id', 'username', 'orders', 'total_amount']
+
+    def get_total_amount(self, instance):
+        total_amount = instance.orders.aggregate(Sum('total_cost')).get('total_cost__sum')
+        return total_amount or 0
 
 
 class CustomerRegisterSerializer(serializers.ModelSerializer):

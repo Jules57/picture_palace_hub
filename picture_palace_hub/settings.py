@@ -155,7 +155,7 @@ TIME_FORMAT = 'H:i:s'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 5,
+    'PAGE_SIZE': 15,
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'users.models.BearerTokenAuthentication',
         'rest_framework.authentication.TokenAuthentication',
