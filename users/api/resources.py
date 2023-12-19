@@ -1,13 +1,12 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import views, status, viewsets
 from rest_framework.authtoken.models import Token
-
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from users.api.permissions import IsProfileOwner
 from users.api.serializers import CustomerSerializer, CustomerRegisterSerializer, CustomerOrderSerializer
-from users.models import Customer, BearerTokenAuthentication
+from users.models import Customer
 
 
 class LogoutApiView(views.APIView):
@@ -21,6 +20,12 @@ class LogoutApiView(views.APIView):
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if not self.request.user.is_superuser:
+            queryset = queryset.filter(id__in=[self.request.user.pk])
+        return queryset
+
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CustomerRegisterSerializer
@@ -29,12 +34,9 @@ class CustomerViewSet(viewsets.ModelViewSet):
         return CustomerSerializer
 
     def get_permissions(self):
-        if self.action in ['create']:
-            permission_classes = []
-        elif self.action in ['list']:
-            permission_classes = [IsAdminUser]
-        else:
-            permission_classes = [IsProfileOwner]
+        permission_classes = []
+        if self.action in ['list']:
+            permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):

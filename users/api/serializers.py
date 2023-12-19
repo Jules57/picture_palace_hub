@@ -15,7 +15,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 
 class CustomerOrderSerializer(serializers.ModelSerializer):
-    orders = OrderReadSerializer(many=True, source='orders')
+    orders = OrderReadSerializer(many=True)
     total_amount = serializers.SerializerMethodField()
 
     class Meta:
