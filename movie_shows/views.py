@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
@@ -84,8 +85,7 @@ class MovieShowListView(ListView):
         sort_order = self.request.GET.get('sort_order', 'asc')
         day = self.request.GET.get('day', None)
 
-        if sort_order not in ['asc', 'desc']:
-            sort_order = 'asc'
+        sort_order = 'asc' if sort_order not in ['asc', 'desc'] else 'desc'
 
         if sort_order == 'asc':
             queryset = queryset.order_by(sort_by, 'ticket_price')
@@ -94,13 +94,13 @@ class MovieShowListView(ListView):
 
         if day == 'today':
             today = timezone.now().date()
-            queryset = MovieShow.objects.filter(
+            queryset = queryset.filter(
                     start_date__lte=today,
                     end_date__gte=today
             )
         elif day == 'next_day':
             next_day = timezone.now().date() + timedelta(days=1)
-            queryset = MovieShow.objects.filter(
+            queryset = queryset.filter(
                     start_date__lte=next_day,
                     end_date__gte=next_day
             )
@@ -146,6 +146,9 @@ class MovieShowCreateView(AdminRequiredMixin, CreateView):
             messages.add_message(self.request, messages.SUCCESS, "Movie show has been created successfully.")
             return HttpResponseRedirect(self.success_url)
 
+    def form_invalid(self, form):
+        return HttpResponseRedirect(self.success_url)
+
 
 class MovieShowUpdateView(AdminRequiredMixin, SoldTicketCheckMixin, UpdateView):
     login_url = reverse_lazy('users:login')
@@ -182,28 +185,25 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         kwargs = super().get_form_kwargs()
         kwargs.update({
             'request': self.request,
-            'movie_show_pk': self.kwargs['pk'],
+            'movie_show': get_object_or_404(MovieShow, pk=self.kwargs['pk']),
             'customer': self.request.user})
         return kwargs
 
     def form_valid(self, form):
         order = form.save(commit=False)
-        movie_show = MovieShow.objects.get(pk=form.movie_show_pk)
-        movie_show.sold_seats += form.cleaned_data['seat_quantity']
+        seat_quantity = form.cleaned_data['seat_quantity']
+        movie_show = form.movie_show
 
+        movie_show.sold_seats += seat_quantity
+        order.total_cost = seat_quantity * movie_show.ticket_price
+        order.customer = form.customer
         order.movie_show = movie_show
 
-        order.seat_quantity = form.cleaned_data['seat_quantity']
-        price = order.movie_show.ticket_price
-        order.total_cost = order.seat_quantity * price
-
-        customer = form.customer
-        order.customer = customer
-        customer.balance -= order.total_cost
+        order.customer.balance -= order.total_cost
 
         with transaction.atomic():
             order.save()
-            customer.save()
+            order.customer.save()
             movie_show.save()
 
         messages.success(self.request, "Order successful!")

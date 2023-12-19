@@ -1,9 +1,10 @@
 from datetime import timedelta
 
+from django.db import transaction
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.datetime_safe import datetime
-from rest_framework import viewsets
+from rest_framework import viewsets, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from movie_shows.api.mixins import CheckSoldSeatsMixin
@@ -89,4 +90,18 @@ class OrderViewSet(viewsets.ModelViewSet):
         return OrderReadSerializer
 
     def perform_create(self, serializer):
-        serializer.save(customer=self.request.user)
+        try:
+            movie_show = serializer.validated_data['movie_show']
+            seat_quantity = serializer.validated_data['seat_quantity']
+
+            movie_show.sold_seats += seat_quantity
+            total_cost = seat_quantity * movie_show.ticket_price
+            customer = self.request.user
+            customer.balance -= total_cost
+
+            with transaction.atomic():
+                serializer.save(customer=self.request.user, total_cost=total_cost)
+                customer.save()
+                movie_show.save()
+        except Exception as e:
+            raise serializers.ValidationError(str(e))

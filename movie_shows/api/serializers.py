@@ -84,6 +84,7 @@ class OrderWriteSerializer(serializers.ModelSerializer):
         fields = ['id', 'customer', 'movie_show', 'seat_quantity', 'total_cost', 'ordered_at']
         read_only_fields = ['customer']
 
+    # 9998917, 00
     def validate_seat_quantity(self, value):
         if value < 1:
             raise serializers.ValidationError('Please choose at least one seat.')
@@ -95,13 +96,5 @@ class OrderWriteSerializer(serializers.ModelSerializer):
 
         validate_available_seats(movie_show, seat_quantity)
         check_balance(movie_show, seat_quantity, customer=self.context['request'].user)
+
         return data
-
-    def create(self, validated_data):
-        try:
-            with transaction.atomic():
-                order = super().create(validated_data)
-
-            return order
-        except Exception as e:
-            raise serializers.ValidationError(str(e))
