@@ -5,6 +5,9 @@ class MovieShowsCollideException(Exception):
 class InvalidDateRangeException(Exception):
     pass
 
+class InvalidTimeRangException(Exception):
+    pass
+
 
 class InvalidDateSetException(Exception):
     pass

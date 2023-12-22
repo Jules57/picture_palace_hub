@@ -1,14 +1,12 @@
-from django.db.models import Q
 from django.utils import timezone
 
 from django import forms
-from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.forms import DateInput, TimeInput
 
-from movie_shows import exceptions
+from movie_shows.exceptions import InsufficientBalanceException, MovieShowsCollideException, InvalidDateSetException, \
+    InvalidTimeRangException, InvalidDateRangeException
 from movie_shows.models import CinemaHall, MovieShow, Order
-from users.models import Customer
 
 
 class CinemaHallCreateForm(forms.ModelForm):
@@ -54,7 +52,7 @@ class MovieShowCreateForm(forms.ModelForm):
             for show in previous_shows:
                 if show.end_date > start_date:
                     if show.end_time > start_time:
-                        raise ValidationError
+                        self.add_error(None, 'This show collide with another show.')
 
 
 class OrderCreateForm(forms.ModelForm):
@@ -65,42 +63,24 @@ class OrderCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         self.customer = kwargs.pop('customer', None)
-        self.movie_show_pk = kwargs.pop('movie_show_pk', None)
+        self.movie_show = kwargs.pop('movie_show', None)
         super().__init__(*args, **kwargs)
 
-    def clean(self):
-        cleaned_data = super().clean()
-        try:
-            movie_show = MovieShow.objects.get(pk=self.movie_show_pk)
-            seat_quantity = cleaned_data.get('seat_quantity')
-            available_seats = movie_show.movie_hall.seats - movie_show.sold_seats
+    def clean_seat_quantity(self):
+        seat_quantity = self.cleaned_data.get('seat_quantity')
+        available_seats = self.movie_show.movie_hall.seats - self.movie_show.sold_seats
 
-            if seat_quantity < 1:
-                self.add_error('seat_quantity',
-                               'Zero seats.')
-                messages.error(self.request,
-                               'Please choose at least one seat.')
+        if seat_quantity < 1:
+            raise ValidationError('Please choose at least one seat.')
 
-            if movie_show and seat_quantity:
-                if seat_quantity > movie_show.movie_hall.seats:
-                    self.add_error('seat_quantity',
-                                   'Seats exceeded.')
-                    messages.error(self.request,
-                                   'You specified more seats than available in the movie hall.')
+        if seat_quantity > self.movie_show.movie_hall.seats:
+            raise ValidationError('You specified more seats than available in the movie hall.')
 
-                elif seat_quantity > available_seats:
-                    self.add_error('seat_quantity',
-                                   'Seats unavailable.')
-                    messages.error(self.request,
-                                   'You specified more seats than available for this movie show.')
+        if seat_quantity > available_seats:
+            raise forms.ValidationError('You specified more seats than available for this movie show.')
 
-                if self.customer.balance < seat_quantity * movie_show.ticket_price:
-                    self.add_error(None,
-                                   'Insufficient balance.')
-                    messages.error(self.request,
-                                   'Sorry, it seems you do not have enough funds to complete this transaction.')
+        if self.customer.balance < seat_quantity * self.movie_show.ticket_price:
+            raise InsufficientBalanceException(
+                'Sorry, it seems you do not have enough funds to complete this transaction.')
 
-        except MovieShow.DoesNotExist:
-            self.add_error(None, 'Error')
-            messages.error(self.request,
-                           'Movie show does not exist.')
+        return seat_quantity

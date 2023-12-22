@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from movie_shows.views import CinemaHallCreateView, CinemaHallDetailView, CinemaHallListView, MovieShowListView, \
     MovieShowDetailView, MovieShowCreateView, MovieListView, CinemaHallUpdateView, CinemaHallDeleteView, \
@@ -7,6 +7,7 @@ from movie_shows.views import CinemaHallCreateView, CinemaHallDetailView, Cinema
 app_name = 'shows'
 
 urlpatterns = [
+    path('api/', include('movie_shows.api.urls')),
     path('hall/', CinemaHallListView.as_view(), name='hall_list'),
     path('hall/create/', CinemaHallCreateView.as_view(), name='create_hall'),
     path('hall/<int:pk>/', CinemaHallDetailView.as_view(), name='hall_detail'),

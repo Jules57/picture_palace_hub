@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'movie_shows',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -87,7 +89,10 @@ DATABASES = {
         'USER': 'cinema_admin',
         'PASSWORD': 'cinema_password',
         'HOST': 'localhost',
-        'PORT': '5432'
+        'PORT': '5432',
+        'TEST': {
+            'NAME': 'cinema_test_db',
+        }
     }
 }
 
@@ -142,6 +147,17 @@ LOGOUT_REDIRECT_URL = "cinema/shows/"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-TIME_SINCE_LAST_ACTION = 3 * 60  # seconds
+TIME_SINCE_LAST_ACTION = 60  # seconds
+
+TOKEN_TTL = 60
 
 TIME_FORMAT = 'H:i:s'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 15,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'users.models.BearerTokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
