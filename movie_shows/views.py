@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponseRedirect, HttpResponseForbidden
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
@@ -121,11 +121,12 @@ class MovieShowDetailView(DetailView):
     model = MovieShow
     http_method_names = ['get', 'post']
     template_name = 'movie_shows/shows/show_detail.html'
-    extra_context = {'order_form': OrderCreateForm}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['available_seats'] = self.object.movie_hall.seats - self.object.sold_seats
+        context['order_form'] = OrderCreateForm(initial={'movie_show': self.object})
+        # context['order_form'].initial['movie_hall'].fields = self.object
         return context
 
 
@@ -183,20 +184,17 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
 
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super().get_form_kwargs()
-        kwargs.update({
-            'request': self.request,
-            'movie_show': get_object_or_404(MovieShow, pk=self.kwargs['pk']),
-            'customer': self.request.user})
+        kwargs.update({'request': self.request})
         return kwargs
 
     def form_valid(self, form):
         order = form.save(commit=False)
         seat_quantity = form.cleaned_data['seat_quantity']
-        movie_show = form.movie_show
+        movie_show = form.cleaned_data['movie_show']
 
         movie_show.sold_seats += seat_quantity
         order.total_cost = seat_quantity * movie_show.ticket_price
-        order.customer = form.customer
+        order.customer = form.request.user
         order.movie_show = movie_show
 
         order.customer.balance -= order.total_cost
@@ -205,10 +203,8 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
             order.save()
             order.customer.save()
             movie_show.save()
-
         messages.success(self.request, "Order successful!")
         return super().form_valid(form=form)
 
     def form_invalid(self, form):
-        messages.error(self.request, "Invalid form data.")
         return HttpResponseRedirect(reverse_lazy('shows:show_list'))

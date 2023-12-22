@@ -23,3 +23,6 @@ class SeatsSoldException(Exception):
 
 class InsufficientBalanceException(Exception):
     pass
+
+class ZeroSeatException(Exception):
+    pass

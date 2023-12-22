@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.utils import timezone
 
 from django import forms
@@ -58,29 +59,38 @@ class MovieShowCreateForm(forms.ModelForm):
 class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['seat_quantity']
+        fields = ['seat_quantity', 'movie_show']
+        widgets = {'movie_show': forms.HiddenInput()}
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
-        self.customer = kwargs.pop('customer', None)
-        self.movie_show = kwargs.pop('movie_show', None)
         super().__init__(*args, **kwargs)
 
-    def clean_seat_quantity(self):
+    def clean(self):
+        cleaned_data = super().clean()
         seat_quantity = self.cleaned_data.get('seat_quantity')
-        available_seats = self.movie_show.movie_hall.seats - self.movie_show.sold_seats
+        movie_show = self.cleaned_data.get('movie_show')
+        available_seats = movie_show.movie_hall.seats - movie_show.sold_seats
 
         if seat_quantity < 1:
-            raise ValidationError('Please choose at least one seat.')
+            if seat_quantity < 1:
+                self.add_error('seat_quantity', 'Zero seats.')
+                messages.error(self.request,
+                               'Please choose at least one ticket.')
 
-        if seat_quantity > self.movie_show.movie_hall.seats:
-            raise ValidationError('You specified more seats than available in the movie hall.')
+        if seat_quantity > movie_show.movie_hall.seats:
+            self.add_error('seat_quantity', 'Too many seats selected.')
+            messages.error(self.request,
+                           'You specified more tickets than available in this movie hall.')
 
         if seat_quantity > available_seats:
-            raise forms.ValidationError('You specified more seats than available for this movie show.')
+            self.add_error('seat_quantity', 'Too many seats selected.')
+            messages.error(self.request,
+                           'You specified more seats than available for this movie show.')
 
-        if self.customer.balance < seat_quantity * self.movie_show.ticket_price:
-            raise InsufficientBalanceException(
-                'Sorry, it seems you do not have enough funds to complete this transaction.')
+        if self.request.user.balance < seat_quantity * movie_show.ticket_price:
+            self.add_error(None, 'Insufficient balance.')
+            messages.error(self.request,
+                           'Sorry, it seems you do not have enough balance to complete this transaction.')
 
-        return seat_quantity
+        return cleaned_data
