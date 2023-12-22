@@ -1,17 +1,14 @@
 from django.urls import include, path
 from rest_framework import routers
-from rest_framework.authtoken.views import ObtainAuthToken
 
-from users.api.resources import LogoutApiView, CustomerViewSet
+from users.api.resources import LogoutApiView, CustomerViewSet, AuthToken
 
 router = routers.SimpleRouter()
 
 router.register(r'users', CustomerViewSet)
 
-# urlpatterns = router.urls
-
 urlpatterns = [
     path('', include(router.urls)),
-    path('login/', ObtainAuthToken.as_view()),
+    path('login/', AuthToken.as_view()),
     path('logout/', LogoutApiView.as_view())
 ]

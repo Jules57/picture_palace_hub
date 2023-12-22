@@ -4,7 +4,7 @@ from django.db import transaction
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.datetime_safe import datetime
-from rest_framework import viewsets, serializers
+from rest_framework import viewsets, serializers, mixins
 from rest_framework.permissions import IsAuthenticated
 
 from movie_shows.api.mixins import CheckSoldSeatsMixin
@@ -80,14 +80,10 @@ class MovieShowViewSet(CheckSoldSeatsMixin, viewsets.ModelViewSet):
         return queryset
 
 
-class OrderViewSet(viewsets.ModelViewSet):
+class OrderViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = Order.objects.all()
     permission_classes = [IsAuthenticated]
-
-    def get_serializer_class(self):
-        if self.request.method == 'POST':
-            return OrderWriteSerializer
-        return OrderReadSerializer
+    serializer_class = OrderWriteSerializer
 
     def perform_create(self, serializer):
         try:

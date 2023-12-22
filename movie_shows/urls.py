@@ -14,7 +14,7 @@ urlpatterns = [
     path('hall/<int:pk>/edit/', CinemaHallUpdateView.as_view(), name='update_hall'),
     path('hall/<int:pk>/delete/', CinemaHallDeleteView.as_view(), name='delete_hall'),
 
-    path('shows/', MovieShowListView.as_view(), name='show_list'),
+    path('', MovieShowListView.as_view(), name='show_list'),
     path('show/create/', MovieShowCreateView.as_view(), name='create_show'),
     path('show/<int:pk>/', MovieShowDetailView.as_view(), name='show_detail'),
     path('show/<int:pk>/delete/', MovieShowDeleteView.as_view(), name='delete_show'),
