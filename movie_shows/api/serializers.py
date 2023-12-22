@@ -1,10 +1,8 @@
-from django.db.models import Sum
 from rest_framework import serializers
 
 from movie_shows.api.validators import validate_collisions, validate_past_date, validate_time_range, \
     validate_date_range, check_balance, validate_available_seats
 from movie_shows.models import CinemaHall, MovieShow, Movie, Order
-from users.models import Customer
 
 
 class MovieReadSerializer(serializers.ModelSerializer):

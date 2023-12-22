@@ -3,12 +3,11 @@ from rest_framework import views, status, viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from users.api.permissions import IsProfileOwner
-from users.api.serializers import CustomerWriteSerializer, CustomerRegisterSerializer, CustomerReadSerializer
-from users.models import Customer, BearerTokenAuthentication
+from users.api.serializers import CustomerRegisterSerializer, CustomerReadSerializer
+from users.models import Customer
 
 
 class AuthToken(ObtainAuthToken):
