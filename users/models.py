@@ -13,8 +13,5 @@ class Customer(AbstractUser):
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=10000000)
 
 
-# class ExpiringToken(Token):
-#     last_action = models.DateTimeField(auto_now=True)
-
 class BearerTokenAuthentication(TokenAuthentication):
     keyword = 'Bearer'
