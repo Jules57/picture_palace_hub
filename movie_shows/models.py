@@ -39,6 +39,9 @@ class CinemaHall(models.Model):
     def get_absolute_url(self):
         return reverse('shows:hall_detail', args=[self.id])
 
+    class Meta:
+        ordering = ['seats', 'name']
+
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)
@@ -54,6 +57,9 @@ class Movie(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+    class Meta:
+        ordering = ['title', 'duration_in_minutes']
 
 
 class MovieShow(models.Model):
@@ -71,6 +77,9 @@ class MovieShow(models.Model):
 
     def get_absolute_url(self):
         return reverse('shows:show_detail', args=[self.id])
+
+    class Meta:
+        ordering = ['start_date', 'start_time']
 
 
 class Order(models.Model):
