@@ -3,10 +3,11 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from movie_shows.api.serializers import OrderReadSerializer
+from movie_shows.models import Order
 from users.models import Customer
 
 
-class CustomerSerializer(serializers.ModelSerializer):
+class CustomerWriteSerializer(serializers.ModelSerializer):
     username = serializers.CharField(read_only=True)
 
     class Meta:
@@ -14,18 +15,17 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email']
 
 
-class CustomerOrderSerializer(serializers.ModelSerializer):
-    orders = OrderReadSerializer(many=True, source='orders')
+class CustomerReadSerializer(serializers.ModelSerializer):
+    orders = OrderReadSerializer(many=True)
     total_amount = serializers.SerializerMethodField()
+
+    def get_total_amount(self, obj):
+        total_amount = Order.objects.filter(customer=obj).aggregate(total_amount=Sum('total_cost')).get('total_amount')
+        return total_amount or 0
 
     class Meta:
         model = Customer
         fields = ['id', 'username', 'orders', 'total_amount']
-
-    def get_total_amount(self, instance):
-        user = self.context['request'].user
-        total_amount = user.orders.aggregate(Sum('total_cost')).get('total_cost__sum')
-        return total_amount or 0
 
 
 class CustomerRegisterSerializer(serializers.ModelSerializer):
