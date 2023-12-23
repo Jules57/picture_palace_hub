@@ -126,7 +126,6 @@ class MovieShowDetailView(DetailView):
         context = super().get_context_data()
         context['available_seats'] = self.object.movie_hall.seats - self.object.sold_seats
         context['order_form'] = OrderCreateForm(initial={'movie_show': self.object})
-        # context['order_form'].initial['movie_hall'].fields = self.object
         return context
 
 
@@ -207,4 +206,4 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form=form)
 
     def form_invalid(self, form):
-        return HttpResponseRedirect(reverse_lazy('shows:show_list'))
+        return HttpResponseRedirect(reverse_lazy('shows:show_detail', kwargs={'pk': self.kwargs.get('pk')}))

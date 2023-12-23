@@ -1,4 +1,5 @@
 from django.contrib import admin
+from rest_framework.authtoken.models import Token
 
 from movie_shows.models import Movie, CinemaHall, MovieShow, Order
 
@@ -27,8 +28,12 @@ class MovieShowAdmin(admin.ModelAdmin):
     search_fields = ['movie', 'movie_hall']
     list_editable = ['start_time', 'end_time', 'start_date', 'end_date', 'ticket_price']
 
-    @admin.register(Order)
-    class OrderAdmin(admin.ModelAdmin):
-        list_display = ['id', 'customer', 'movie_show', 'seat_quantity', 'total_cost']
-        list_filter = ['customer', 'seat_quantity']
-        search_fields = ['customer', 'movie_show']
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'customer', 'movie_show', 'seat_quantity', 'total_cost']
+    list_filter = ['customer', 'seat_quantity']
+    search_fields = ['customer', 'movie_show']
+
+
+# admin.site.register(Token)
