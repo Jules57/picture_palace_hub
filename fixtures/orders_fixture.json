@@ -1,0 +1,244 @@
+[
+{
+  "model": "movie_shows.order",
+  "pk": 27,
+  "fields": {
+    "customer": 1,
+    "movie_show": 24,
+    "seat_quantity": 10,
+    "total_cost": "150.00",
+    "ordered_at": "2023-12-14"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 28,
+  "fields": {
+    "customer": 1,
+    "movie_show": 24,
+    "seat_quantity": 1,
+    "total_cost": "15.00",
+    "ordered_at": "2023-12-14"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 29,
+  "fields": {
+    "customer": 7,
+    "movie_show": 26,
+    "seat_quantity": 1,
+    "total_cost": "10.00",
+    "ordered_at": "2023-12-14"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 30,
+  "fields": {
+    "customer": 1,
+    "movie_show": 24,
+    "seat_quantity": 1,
+    "total_cost": "15.00",
+    "ordered_at": "2023-12-16"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 31,
+  "fields": {
+    "customer": 1,
+    "movie_show": 29,
+    "seat_quantity": 5,
+    "total_cost": "50.00",
+    "ordered_at": "2023-12-16"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 36,
+  "fields": {
+    "customer": 1,
+    "movie_show": 24,
+    "seat_quantity": 1,
+    "total_cost": "15.00",
+    "ordered_at": "2023-12-19"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 37,
+  "fields": {
+    "customer": 1,
+    "movie_show": 27,
+    "seat_quantity": 5,
+    "total_cost": "70.00",
+    "ordered_at": "2023-12-19"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 38,
+  "fields": {
+    "customer": 1,
+    "movie_show": 27,
+    "seat_quantity": 5,
+    "total_cost": "70.00",
+    "ordered_at": "2023-12-19"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 40,
+  "fields": {
+    "customer": 1,
+    "movie_show": 27,
+    "seat_quantity": 1,
+    "total_cost": "14.00",
+    "ordered_at": "2023-12-19"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 41,
+  "fields": {
+    "customer": 1,
+    "movie_show": 27,
+    "seat_quantity": 1,
+    "total_cost": "14.00",
+    "ordered_at": "2023-12-19"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 42,
+  "fields": {
+    "customer": 1,
+    "movie_show": 40,
+    "seat_quantity": 1,
+    "total_cost": "15.00",
+    "ordered_at": "2023-12-19"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 43,
+  "fields": {
+    "customer": 1,
+    "movie_show": 40,
+    "seat_quantity": 1,
+    "total_cost": "15.00",
+    "ordered_at": "2023-12-19"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 44,
+  "fields": {
+    "customer": 9,
+    "movie_show": 29,
+    "seat_quantity": 2,
+    "total_cost": "20.00",
+    "ordered_at": "2023-12-19"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 45,
+  "fields": {
+    "customer": 9,
+    "movie_show": 29,
+    "seat_quantity": 2,
+    "total_cost": "20.00",
+    "ordered_at": "2023-12-19"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 46,
+  "fields": {
+    "customer": 9,
+    "movie_show": 29,
+    "seat_quantity": 2,
+    "total_cost": "20.00",
+    "ordered_at": "2023-12-22"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 47,
+  "fields": {
+    "customer": 9,
+    "movie_show": 28,
+    "seat_quantity": 2,
+    "total_cost": "24.00",
+    "ordered_at": "2023-12-22"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 48,
+  "fields": {
+    "customer": 1,
+    "movie_show": 40,
+    "seat_quantity": 1,
+    "total_cost": "15.00",
+    "ordered_at": "2023-12-22"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 49,
+  "fields": {
+    "customer": 1,
+    "movie_show": 40,
+    "seat_quantity": 2,
+    "total_cost": "30.00",
+    "ordered_at": "2023-12-22"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 50,
+  "fields": {
+    "customer": 1,
+    "movie_show": 40,
+    "seat_quantity": 1,
+    "total_cost": "15.00",
+    "ordered_at": "2023-12-22"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 51,
+  "fields": {
+    "customer": 1,
+    "movie_show": 28,
+    "seat_quantity": 1,
+    "total_cost": "12.00",
+    "ordered_at": "2023-12-22"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 52,
+  "fields": {
+    "customer": 1,
+    "movie_show": 28,
+    "seat_quantity": 1,
+    "total_cost": "12.00",
+    "ordered_at": "2023-12-23"
+  }
+},
+{
+  "model": "movie_shows.order",
+  "pk": 53,
+  "fields": {
+    "customer": 1,
+    "movie_show": 24,
+    "seat_quantity": 1,
+    "total_cost": "15.00",
+    "ordered_at": "2023-12-23"
+  }
+}
+]

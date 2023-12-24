@@ -1,0 +1,142 @@
+[
+{
+  "model": "movie_shows.movieshow",
+  "pk": 24,
+  "fields": {
+    "movie": 4,
+    "movie_hall": 4,
+    "start_time": "10:00:00",
+    "start_date": "2023-12-11",
+    "end_time": "14:30:00",
+    "end_date": "2023-12-19",
+    "sold_seats": 14,
+    "ticket_price": "15.00"
+  }
+},
+{
+  "model": "movie_shows.movieshow",
+  "pk": 26,
+  "fields": {
+    "movie": 3,
+    "movie_hall": 4,
+    "start_time": "16:00:00",
+    "start_date": "2023-12-12",
+    "end_time": "18:30:00",
+    "end_date": "2023-12-19",
+    "sold_seats": 1,
+    "ticket_price": "10.00"
+  }
+},
+{
+  "model": "movie_shows.movieshow",
+  "pk": 27,
+  "fields": {
+    "movie": 2,
+    "movie_hall": 6,
+    "start_time": "17:00:00",
+    "start_date": "2023-12-12",
+    "end_time": "19:30:00",
+    "end_date": "2023-12-29",
+    "sold_seats": 12,
+    "ticket_price": "14.00"
+  }
+},
+{
+  "model": "movie_shows.movieshow",
+  "pk": 28,
+  "fields": {
+    "movie": 1,
+    "movie_hall": 4,
+    "start_time": "20:00:00",
+    "start_date": "2023-12-12",
+    "end_time": "22:30:00",
+    "end_date": "2023-12-30",
+    "sold_seats": 4,
+    "ticket_price": "12.00"
+  }
+},
+{
+  "model": "movie_shows.movieshow",
+  "pk": 29,
+  "fields": {
+    "movie": 6,
+    "movie_hall": 8,
+    "start_time": "17:00:00",
+    "start_date": "2023-12-12",
+    "end_time": "19:30:00",
+    "end_date": "2023-12-30",
+    "sold_seats": 11,
+    "ticket_price": "10.00"
+  }
+},
+{
+  "model": "movie_shows.movieshow",
+  "pk": 31,
+  "fields": {
+    "movie": 3,
+    "movie_hall": 10,
+    "start_time": "12:00:00",
+    "start_date": "2023-12-10",
+    "end_time": "14:00:00",
+    "end_date": "2023-12-30",
+    "sold_seats": 0,
+    "ticket_price": "13.00"
+  }
+},
+{
+  "model": "movie_shows.movieshow",
+  "pk": 33,
+  "fields": {
+    "movie": 4,
+    "movie_hall": 10,
+    "start_time": "14:00:00",
+    "start_date": "2023-12-10",
+    "end_time": "16:30:00",
+    "end_date": "2023-12-30",
+    "sold_seats": 0,
+    "ticket_price": "15.00"
+  }
+},
+{
+  "model": "movie_shows.movieshow",
+  "pk": 34,
+  "fields": {
+    "movie": 2,
+    "movie_hall": 10,
+    "start_time": "17:00:00",
+    "start_date": "2023-12-10",
+    "end_time": "19:30:00",
+    "end_date": "2023-12-30",
+    "sold_seats": 0,
+    "ticket_price": "15.00"
+  }
+},
+{
+  "model": "movie_shows.movieshow",
+  "pk": 40,
+  "fields": {
+    "movie": 2,
+    "movie_hall": 6,
+    "start_time": "20:00:00",
+    "start_date": "2023-12-10",
+    "end_time": "22:00:00",
+    "end_date": "2023-12-30",
+    "sold_seats": 6,
+    "ticket_price": "15.00"
+  }
+},
+{
+  "model": "movie_shows.movieshow",
+  "pk": 41,
+  "fields": {
+    "movie": 4,
+    "movie_hall": 6,
+    "start_time": "14:00:00",
+    "start_date": "2023-12-10",
+    "end_time": "16:30:00",
+    "end_date": "2023-12-30",
+    "sold_seats": 0,
+    "ticket_price": "12.00"
+  }
+}
+]

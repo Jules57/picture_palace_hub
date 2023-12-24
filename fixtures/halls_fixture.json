@@ -1,0 +1,52 @@
+[
+{
+  "model": "movie_shows.cinemahall",
+  "pk": 4,
+  "fields": {
+    "name": "Genius Hall",
+    "seats": 60,
+    "screen_size": "Standard",
+    "screen_type": "2D"
+  }
+},
+{
+  "model": "movie_shows.cinemahall",
+  "pk": 6,
+  "fields": {
+    "name": "Majestic Hall",
+    "seats": 50,
+    "screen_size": "Premium",
+    "screen_type": "3D"
+  }
+},
+{
+  "model": "movie_shows.cinemahall",
+  "pk": 7,
+  "fields": {
+    "name": "Royal Hall",
+    "seats": 100,
+    "screen_size": "Large",
+    "screen_type": "3D"
+  }
+},
+{
+  "model": "movie_shows.cinemahall",
+  "pk": 8,
+  "fields": {
+    "name": "Miracle Hall",
+    "seats": 50,
+    "screen_size": "Large",
+    "screen_type": "3D"
+  }
+},
+{
+  "model": "movie_shows.cinemahall",
+  "pk": 10,
+  "fields": {
+    "name": "Fantasy Hall",
+    "seats": 75,
+    "screen_size": "Standard",
+    "screen_type": "3D"
+  }
+}
+]
