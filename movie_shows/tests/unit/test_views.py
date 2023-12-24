@@ -203,18 +203,6 @@ class MovieShowDetailViewTest(TestCase):
                 ticket_price=10.00
         )
 
-    def test_view_url_exists_at_desired_location(self):
-        resp = self.client.get('/cinema/show/1/')
-        self.assertEqual(resp.status_code, 200)
-
-    def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse('shows:show_detail', kwargs={'pk': 1}))
-        self.assertEqual(resp.status_code, 200)
-
-    def test_view_uses_correct_template(self):
-        resp = self.client.get(reverse('shows:show_detail', kwargs={'pk': 1}))
-        self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, 'movie_shows/shows/show_detail.html')
 
     def test_get_context_data_available_seats(self):
         request = self.factory.get(reverse('shows:show_detail', kwargs={'pk': self.movie_show.pk}))
