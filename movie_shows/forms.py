@@ -2,11 +2,8 @@ from django.contrib import messages
 from django.utils import timezone
 
 from django import forms
-from django.core.exceptions import ValidationError
 from django.forms import DateInput, TimeInput
 
-from movie_shows.exceptions import InsufficientBalanceException, MovieShowsCollideException, InvalidDateSetException, \
-    InvalidTimeRangException, InvalidDateRangeException
 from movie_shows.models import CinemaHall, MovieShow, Order
 
 
@@ -73,10 +70,9 @@ class OrderCreateForm(forms.ModelForm):
         available_seats = movie_show.movie_hall.seats - movie_show.sold_seats
 
         if seat_quantity < 1:
-            if seat_quantity < 1:
-                self.add_error('seat_quantity', 'Zero seats.')
-                messages.error(self.request,
-                               'Please choose at least one ticket.')
+            self.add_error('seat_quantity', 'Zero seats.')
+            messages.error(self.request,
+                           'Please choose at least one ticket.')
 
         if seat_quantity > movie_show.movie_hall.seats:
             self.add_error('seat_quantity', 'Too many seats selected.')
