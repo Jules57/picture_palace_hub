@@ -1,7 +1,7 @@
 [
 {
   "model": "movie_shows.movieshow",
-  "pk": 24,
+  "pk": 1,
   "fields": {
     "movie": 4,
     "movie_hall": 4,
@@ -15,7 +15,7 @@
 },
 {
   "model": "movie_shows.movieshow",
-  "pk": 26,
+  "pk": 2,
   "fields": {
     "movie": 3,
     "movie_hall": 4,
@@ -29,7 +29,7 @@
 },
 {
   "model": "movie_shows.movieshow",
-  "pk": 27,
+  "pk": 3,
   "fields": {
     "movie": 2,
     "movie_hall": 6,
@@ -43,7 +43,7 @@
 },
 {
   "model": "movie_shows.movieshow",
-  "pk": 28,
+  "pk": 4,
   "fields": {
     "movie": 1,
     "movie_hall": 4,
@@ -57,10 +57,10 @@
 },
 {
   "model": "movie_shows.movieshow",
-  "pk": 29,
+  "pk": 5,
   "fields": {
     "movie": 6,
-    "movie_hall": 8,
+    "movie_hall": 3,
     "start_time": "17:00:00",
     "start_date": "2023-12-12",
     "end_time": "19:30:00",
@@ -71,10 +71,10 @@
 },
 {
   "model": "movie_shows.movieshow",
-  "pk": 31,
+  "pk": 6,
   "fields": {
     "movie": 3,
-    "movie_hall": 10,
+    "movie_hall": 2,
     "start_time": "12:00:00",
     "start_date": "2023-12-10",
     "end_time": "14:00:00",
@@ -85,10 +85,10 @@
 },
 {
   "model": "movie_shows.movieshow",
-  "pk": 33,
+  "pk": 7,
   "fields": {
     "movie": 4,
-    "movie_hall": 10,
+    "movie_hall": 5,
     "start_time": "14:00:00",
     "start_date": "2023-12-10",
     "end_time": "16:30:00",
@@ -99,10 +99,10 @@
 },
 {
   "model": "movie_shows.movieshow",
-  "pk": 34,
+  "pk": 8,
   "fields": {
     "movie": 2,
-    "movie_hall": 10,
+    "movie_hall": 5,
     "start_time": "17:00:00",
     "start_date": "2023-12-10",
     "end_time": "19:30:00",
@@ -113,10 +113,10 @@
 },
 {
   "model": "movie_shows.movieshow",
-  "pk": 40,
+  "pk": 9,
   "fields": {
     "movie": 2,
-    "movie_hall": 6,
+    "movie_hall": 1,
     "start_time": "20:00:00",
     "start_date": "2023-12-10",
     "end_time": "22:00:00",
@@ -127,10 +127,10 @@
 },
 {
   "model": "movie_shows.movieshow",
-  "pk": 41,
+  "pk": 10,
   "fields": {
     "movie": 4,
-    "movie_hall": 6,
+    "movie_hall": 5,
     "start_time": "14:00:00",
     "start_date": "2023-12-10",
     "end_time": "16:30:00",

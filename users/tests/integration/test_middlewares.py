@@ -8,13 +8,16 @@ from users.models import Customer
 
 
 class LogoutMiddlewareTestCase(TestCase):
+    fixtures = ['fixtures/shows.json']
+
     def setUp(self):
         self.client = Client()
+
         self.user = Customer.objects.create(
                 username='testuser',
                 password='testpass',
-                is_staff=True,
-                is_superuser=True)
+                is_staff=False,
+                is_superuser=False)
         self.client.force_login(self.user)
 
     def test_logout_after_timeout(self):

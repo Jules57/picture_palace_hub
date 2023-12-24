@@ -1,7 +1,7 @@
 [
 {
   "model": "movie_shows.cinemahall",
-  "pk": 4,
+  "pk": 1,
   "fields": {
     "name": "Genius Hall",
     "seats": 60,
@@ -11,7 +11,7 @@
 },
 {
   "model": "movie_shows.cinemahall",
-  "pk": 6,
+  "pk": 2,
   "fields": {
     "name": "Majestic Hall",
     "seats": 50,
@@ -21,7 +21,7 @@
 },
 {
   "model": "movie_shows.cinemahall",
-  "pk": 7,
+  "pk": 3,
   "fields": {
     "name": "Royal Hall",
     "seats": 100,
@@ -31,7 +31,7 @@
 },
 {
   "model": "movie_shows.cinemahall",
-  "pk": 8,
+  "pk": 4,
   "fields": {
     "name": "Miracle Hall",
     "seats": 50,
@@ -41,7 +41,7 @@
 },
 {
   "model": "movie_shows.cinemahall",
-  "pk": 10,
+  "pk": 5,
   "fields": {
     "name": "Fantasy Hall",
     "seats": 75,

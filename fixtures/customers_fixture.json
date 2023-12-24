@@ -18,85 +18,10 @@
     "user_permissions": []
   }
 },
+
 {
   "model": "users.customer",
-  "pk": 5,
-  "fields": {
-    "password": "juliagrandpass",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "julia",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-12-08T20:04:02.053Z",
-    "balance": "10000000.00",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "users.customer",
-  "pk": 6,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$qxyYN0Gtyze4FyjrnXKLke$l5Z85UqEyLjPfzJOOv9YdmKmpC+Z/qHKEpeOt/cDPIg=",
-    "last_login": "2023-12-08T20:07:50.745Z",
-    "is_superuser": false,
-    "username": "julia111",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-12-08T20:06:37.189Z",
-    "balance": "10000000.00",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "users.customer",
-  "pk": 7,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$DZPi0Ap1TGD6wGxA1qiNm7$TxYJ9rU6nSgC5IFDpKU0bXpmP6LZol06bRUWevx61mk=",
-    "last_login": "2023-12-14T17:06:03.487Z",
-    "is_superuser": false,
-    "username": "tom",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-12-08T20:08:48.828Z",
-    "balance": "9999990.00",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "users.customer",
-  "pk": 8,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$wcDKzKSufljHwEO6jExGYv$kR07FhrQjVTRtBfRa/R0S9Pv+0LBDaQ/FOFGF2C1hmY=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "Mike",
-    "first_name": "",
-    "last_name": "",
-    "email": "mike@gmail.com",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-12-14T19:08:12.245Z",
-    "balance": "10000000.00",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "users.customer",
-  "pk": 9,
+  "pk": 2,
   "fields": {
     "password": "pbkdf2_sha256$600000$McrD6fw3gWMlT6IZOqRUsd$T9DBfoLBpcZPJYZjy5IJzPh0tQGQOyWUclNXa3Dl2Dc=",
     "last_login": null,
@@ -109,25 +34,6 @@
     "is_active": true,
     "date_joined": "2023-12-17T11:36:34.833Z",
     "balance": "9999916.00",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "users.customer",
-  "pk": 25,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$okz7oJ5hxNvJXigGRJpZpf$AEOE4PpFzyMfr3z+ppZPG+QQjkS3lJrAlKgn/BYwlWA=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "linda",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-12-22T17:44:03.118Z",
-    "balance": "10000000.00",
     "groups": [],
     "user_permissions": []
   }
