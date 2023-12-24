@@ -155,7 +155,8 @@ class MovieShowUpdateView(AdminRequiredMixin, SoldTicketCheckMixin, UpdateView):
     model = MovieShow
     form_class = MovieShowCreateForm
     template_name = 'movie_shows/shows/show_update.html'
-    success_url = reverse_lazy('shows:show_list')
+
+    # success_url = reverse_lazy('shows:show_list')
 
     def get_success_url(self):
         return reverse_lazy('shows:show_list')

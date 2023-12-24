@@ -1,4 +1,5 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
+from unittest.mock import Mock
 
 from django.http import Http404
 from django.test import TestCase
@@ -10,7 +11,8 @@ from django.utils import timezone
 from movie_shows.forms import OrderCreateForm
 from movie_shows.models import CinemaHall, MovieShow, Movie
 from movie_shows.views import CinemaHallDetailView, CinemaHallUpdateView, CinemaHallDeleteView, MovieShowDetailView, \
-    MovieShowListView
+    MovieShowListView, MovieShowUpdateView
+from users.models import Customer
 
 
 class CinemaHallDetailViewTest(TestCase):
@@ -203,7 +205,6 @@ class MovieShowDetailViewTest(TestCase):
                 ticket_price=10.00
         )
 
-
     def test_get_context_data_available_seats(self):
         request = self.factory.get(reverse('shows:show_detail', kwargs={'pk': self.movie_show.pk}))
         request.user = self.user
@@ -318,3 +319,20 @@ class MovieShowListViewTest(TestCase):
         view.setup(request)
         queryset = view.get_queryset()
         self.assertEqual(queryset.count(), 1)
+
+
+class MovieShowUpdateViewTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = Customer.objects.create(username='testuser',
+                                            password='testpass',
+                                            is_superuser=True)
+        self.movie_show = Mock()
+
+    def test_get_success_url(self):
+        request = self.factory.get(f'/cinema/show/{self.movie_show.pk}/edit/')
+        request.user = self.user
+        view = MovieShowUpdateView()
+        view.setup(request)
+        success_url = view.get_success_url()
+        self.assertEqual(success_url, '/cinema/')
