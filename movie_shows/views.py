@@ -75,8 +75,8 @@ class MovieShowListView(ListView):
     model = MovieShow
     template_name = 'movie_shows/shows/show_list.html'
     context_object_name = 'shows'
-    paginate_by = 3
-    ordering = ['-start_time']
+    paginate_by = 6
+    ordering = ['-start_date', '-start_time']
 
     def get_queryset(self):
         queryset = MovieShow.objects.all()
