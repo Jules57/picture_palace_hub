@@ -75,8 +75,7 @@ class MovieShowListView(ListView):
     model = MovieShow
     template_name = 'movie_shows/shows/show_list.html'
     context_object_name = 'shows'
-    paginate_by = 6
-    ordering = ['-start_date', '-start_time']
+    paginate_by = 12
 
     def get_queryset(self):
         queryset = MovieShow.objects.all()
@@ -84,8 +83,6 @@ class MovieShowListView(ListView):
         sort_by = self.request.GET.get('sort_by', 'start_time')
         sort_order = self.request.GET.get('sort_order', 'asc')
         day = self.request.GET.get('day', None)
-
-        sort_order = 'asc' if sort_order not in ['asc', 'desc'] else 'desc'
 
         if sort_order == 'asc':
             queryset = queryset.order_by(sort_by, 'ticket_price')
@@ -137,16 +134,8 @@ class MovieShowCreateView(AdminRequiredMixin, CreateView):
     success_url = reverse_lazy('shows:show_list')
 
     def form_valid(self, form):
-        try:
-            form.save()
-        except exceptions.MovieShowsCollideException:
-            messages.add_message(self.request, messages.ERROR, "This movie show collides with another show.")
-            return HttpResponseRedirect(self.request.path_info)
-        else:
-            messages.add_message(self.request, messages.SUCCESS, "Movie show has been created successfully.")
-            return HttpResponseRedirect(self.success_url)
-
-    def form_invalid(self, form):
+        form.save()
+        messages.add_message(self.request, messages.SUCCESS, "Movie show has been created successfully.")
         return HttpResponseRedirect(self.success_url)
 
 
