@@ -78,9 +78,6 @@ class MovieShow(models.Model):
     def get_absolute_url(self):
         return reverse('shows:show_detail', args=[self.id])
 
-    class Meta:
-        ordering = ['start_date', 'start_time']
-
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')
