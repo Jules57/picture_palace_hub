@@ -27,7 +27,7 @@
             <div class="item">
                 <h2><a href="{{ show.get_absolute_url }}">{{ show }}</a></h2>
                 <p>Movie: {{ show.movie }} </p>
-                <p>Hall: {{ show.movie_hall }}</p>
+                <p><a href="{{ show.movie_hall.get_absolute_url }}">{{ show.movie_hall }}</a></p>
                 <p>Price: ${{ show.ticket_price }}</p>
                 <p>Sold seats: {{ show.sold_seats }}</p>
                 <p>Total seats: {{ show.movie_hall.seats }}</p>
