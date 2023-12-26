@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('user/', include('users.urls')),
+    path('account/', include('users.urls')),
     path('cinema/', include('movie_shows.urls')),
     path('admin/', admin.site.urls),
 ]

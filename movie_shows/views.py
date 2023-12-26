@@ -141,11 +141,6 @@ class MovieShowCreateView(AdminRequiredMixin, CreateView):
         messages.add_message(self.request, messages.SUCCESS, "Movie show has been created successfully.")
         return self.object.get_absolute_url()
 
-    # def form_valid(self, form):
-    #     form.save()
-    #     messages.add_message(self.request, messages.SUCCESS, "Movie show has been created successfully.")
-    #     return self.object.get_absolute_url()
-
 
 class MovieShowUpdateView(AdminRequiredMixin, SoldTicketCheckMixin, UpdateView):
     login_url = reverse_lazy('users:login')

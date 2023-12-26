@@ -17,7 +17,7 @@ class MovieShowReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MovieShow
-        fields = ['id', 'movie', 'movie_hall', 'start_time', 'start_date', 'end_time', 'end_date', 'sold_seats',
+        fields = ['id', 'movie', 'movie_hall', 'start_time', 'end_time', 'start_date', 'end_date', 'sold_seats',
                   'ticket_price']
 
 
@@ -27,8 +27,8 @@ class MovieShowWriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MovieShow
-        fields = ['id', 'movie', 'movie_hall', 'start_time', 'start_date',
-                  'end_time', 'end_date', 'sold_seats', 'ticket_price']
+        fields = ['id', 'movie', 'movie_hall', 'start_time', 'end_time', 'start_date', 'end_date', 'sold_seats',
+                  'ticket_price']
 
     def validate(self, data):
         start_date = data.get('start_date', self.instance.start_date if self.instance else None)
@@ -40,11 +40,11 @@ class MovieShowWriteSerializer(serializers.ModelSerializer):
         validate_date_range(start_date, end_date)
         validate_time_range(start_time, end_time)
         validate_past_date(end_date)
+        validate_collisions(self, movie_hall, start_date, end_date, start_time, end_time)
 
         if self.instance:
             if self.instance.sold_seats > 0:
                 raise serializers.ValidationError('You cannot delete or update a movie show with sold seats.')
-            validate_collisions(self, movie_hall, start_date, end_date, start_time, end_time)
         return data
 
 
@@ -62,8 +62,9 @@ class CinemaHallWriteSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'seats', 'screen_size', 'screen_type']
 
     def validate(self, data):
-        if any([show.sold_seats > 0 for show in self.instance.shows.all()]):
-            raise serializers.ValidationError('You cannot modify a cinema hall with booked shows.')
+        if self.instance:
+            if any([show.sold_seats > 0 for show in self.instance.shows.all()]):
+                raise serializers.ValidationError('You cannot modify a cinema hall with booked shows.')
         return data
 
 

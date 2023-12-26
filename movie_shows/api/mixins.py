@@ -10,7 +10,7 @@ class CheckSoldSeatsMixin(object):
 
         if isinstance(instance, MovieShow):
             if instance.sold_seats > 0:
-                return Response({"detail": "Cannot delete session with purchased tickets."},
+                return Response({"detail": "Cannot delete movie show with sold tickets."},
                                 status=status.HTTP_400_BAD_REQUEST)
 
         elif isinstance(instance, CinemaHall):
