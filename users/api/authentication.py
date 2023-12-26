@@ -17,7 +17,7 @@ class TokenExpiredAuthentication(TokenAuthentication):
         except Token.DoesNotExist:
             raise AuthenticationFailed('Invalid token')
 
-        if token.created < timezone.now() - datetime.timedelta(seconds=settings.TOKEN_TTL):
+        if token.created < timezone.now() - datetime.timedelta(seconds=settings.TOKEN_TTL) and not token.user.is_staff:
             token.delete()
             raise AuthenticationFailed(f'Token was created more the {settings.TOKEN_TTL} seconds ago.')
 
