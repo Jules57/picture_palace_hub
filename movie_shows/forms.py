@@ -63,10 +63,13 @@ class OrderCreateForm(forms.ModelForm):
         self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
 
+        self.fields['movie_show'].widget.attrs['readonly'] = True
+
     def clean(self):
         cleaned_data = super().clean()
         seat_quantity = self.cleaned_data.get('seat_quantity')
         movie_show = self.cleaned_data.get('movie_show')
+
         available_seats = movie_show.movie_hall.seats - movie_show.sold_seats
 
         if seat_quantity < 1:
