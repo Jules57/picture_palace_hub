@@ -3,13 +3,11 @@ from datetime import timedelta
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
-from django.http import HttpResponseRedirect, HttpResponseForbidden
-from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 
-from movie_shows import exceptions
 from movie_shows.forms import CinemaHallCreateForm, MovieShowCreateForm, OrderCreateForm
 from movie_shows.mixins import AdminRequiredMixin, SoldTicketCheckMixin
 from movie_shows.models import CinemaHall, MovieShow, Movie, Order
