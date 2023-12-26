@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from movie_shows.api.mixins import CheckSoldSeatsMixin
 from movie_shows.api.serializers import CinemaHallWriteSerializer, CinemaHallReadSerializer, MovieShowWriteSerializer, \
-    MovieShowReadSerializer, MovieReadSerializer, OrderReadSerializer, OrderWriteSerializer
+    MovieShowReadSerializer, MovieReadSerializer, OrderWriteSerializer
 from movie_shows.models import CinemaHall, MovieShow, Movie, Order
 from users.api.permissions import IsAdminOrReadOnly
 

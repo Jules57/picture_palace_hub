@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import HttpResponseRedirect
 
-from movie_shows.exceptions import SeatsSoldException
 from movie_shows.models import MovieShow, CinemaHall
 
 
@@ -17,12 +16,12 @@ class SoldTicketCheckMixin:
 
         if isinstance(self.object, MovieShow) and self.object.sold_seats > 0:
             messages.error(self.request, 'This movie show is already booked.')
-            return HttpResponseRedirect(self.get_success_url())
+            return HttpResponseRedirect(self.object.get_absolute_url())
 
         if isinstance(self.object, CinemaHall) and hasattr(self.object, 'shows') and any(
                 show.sold_seats > 0 for show in self.object.shows.all()):
             messages.error(self.request, 'A movie show in this hall is already booked.')
-            return HttpResponseRedirect(self.get_success_url())
+            return HttpResponseRedirect(self.object.get_absolute_url())
 
         return super().get(request, *args, **kwargs)
 
@@ -31,12 +30,12 @@ class SoldTicketCheckMixin:
 
         if isinstance(self.object, MovieShow) and self.object.sold_seats > 0:
             messages.error(self.request, 'This movie show is already booked.')
-            return HttpResponseRedirect(self.get_success_url())
+            return HttpResponseRedirect(self.object.get_absolute_url())
 
         if isinstance(self.object, CinemaHall) and hasattr(self.object, 'shows') and any(
                 show.sold_seats > 0 for show in self.object.shows.all()):
             messages.error(self.request, 'A movie show in this hall is already booked.')
-            return HttpResponseRedirect(self.get_success_url())
+            return HttpResponseRedirect(self.object.get_absolute_url())
 
         return super().post(request, *args, **kwargs)
 

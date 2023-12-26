@@ -1,3 +1,4 @@
+from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Sum
@@ -13,6 +14,11 @@ class RegisterView(CreateView):
     template_name = 'users/user_register.html'
     form_class = RegisterForm
     success_url = reverse_lazy('shows:show_list')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        login(self.request, self.object)
+        return response
 
 
 class Login(LoginView):
@@ -37,6 +43,5 @@ class CustomerDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['orders'] = Order.objects.filter(customer=self.object).all()
         total_spent = Order.objects.filter(customer=self.object).aggregate(Sum('total_cost'))
-        # total_spent = self.object.orders.aggregate(Sum('total_cost')
         context['total_spent'] = total_spent['total_cost__sum']
         return context

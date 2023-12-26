@@ -154,10 +154,10 @@ TOKEN_TTL = 60
 TIME_FORMAT = 'H:i:s'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 15,
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'users.models.BearerTokenAuthentication',
+        'users.api.authentication.TokenExpiredAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ]
 }

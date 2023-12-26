@@ -11,6 +11,16 @@ body {
     background-size: cover;
 }
 
+a {
+    text-decoration: None;
+    color: burlywood;
+}
+
+a:visited {
+    text-decoration: None;
+    color: burlywood;
+}
+
 h2, h2 a {
     color: burlywood;
     text-shadow: 2px 2px 4px #000000;
@@ -57,6 +67,7 @@ h2, h2 a {
     float: left;
     padding: 10px;
 }
+
 .item h2 {
     margin: 0;
 }
@@ -90,6 +101,7 @@ h2, h2 a {
 
 .hall-link a:visited {
     color: whitesmoke;
+    text-decoration: None;
 
 }
 

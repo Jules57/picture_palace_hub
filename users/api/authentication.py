@@ -1,20 +1,24 @@
+import datetime
+
 from django.utils import timezone
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import AuthenticationFailed
+
 from picture_palace_hub import settings
-from rest_framework import exceptions
-
-from users.models import BearerTokenAuthentication
 
 
-class TokenExpiredAuthentication(BearerTokenAuthentication):
-    def authenticate(self, request):
+class TokenExpiredAuthentication(TokenAuthentication):
+    keyword = 'Bearer'
+
+    def authenticate_credentials(self, key):
         try:
-            user, token = super().authenticate(request=request)
-        except TypeError:
-            return None
+            token = Token.objects.get(key=key)
+        except Token.DoesNotExist:
+            raise AuthenticationFailed('Invalid token')
 
-        if (timezone.now() - token.created).seconds > settings.TOKEN_TTL:
+        if token.created < timezone.now() - datetime.timedelta(seconds=settings.TOKEN_TTL):
             token.delete()
-            raise exceptions.AuthenticationFailed(
-                f'Token was created more the {settings.TOKEN_TTL} seconds ago.'
-            )
-        return user, token
+            raise AuthenticationFailed(f'Token was created more the {settings.TOKEN_TTL} seconds ago.')
+
+        return token.user, token

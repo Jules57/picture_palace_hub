@@ -3,13 +3,11 @@ from datetime import timedelta
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
-from django.http import HttpResponseRedirect, HttpResponseForbidden
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 
-from movie_shows import exceptions
 from movie_shows.forms import CinemaHallCreateForm, MovieShowCreateForm, OrderCreateForm
 from movie_shows.mixins import AdminRequiredMixin, SoldTicketCheckMixin
 from movie_shows.models import CinemaHall, MovieShow, Movie, Order
@@ -42,6 +40,7 @@ class CinemaHallUpdateView(AdminRequiredMixin, SoldTicketCheckMixin, UpdateView)
     fields = ['name', 'seats', 'screen_size', 'screen_type']
 
     def get_success_url(self):
+        messages.success(self.request, f'{self.object.name} has been updated.')
         return self.object.get_absolute_url()
 
 
@@ -58,6 +57,7 @@ class CinemaHallDeleteView(AdminRequiredMixin, SoldTicketCheckMixin, DeleteView)
     template_name = 'movie_shows/halls/hall_delete.html'
 
     def get_success_url(self):
+        messages.success(self.request, f'{self.object.name} has been deleted.')
         return reverse_lazy('shows:hall_list')
 
 
@@ -70,13 +70,16 @@ class CinemaHallCreateView(AdminRequiredMixin, CreateView):
     template_name = 'movie_shows/halls/hall_create.html'
     success_url = reverse_lazy('shows:hall_list')
 
+    def get_success_url(self):
+        messages.success(self.request, f'{self.object.name} has been created successfully.')
+        return self.object.get_absolute_url()
+
 
 class MovieShowListView(ListView):
     model = MovieShow
     template_name = 'movie_shows/shows/show_list.html'
     context_object_name = 'shows'
     paginate_by = 3
-    ordering = ['-start_time']
 
     def get_queryset(self):
         queryset = MovieShow.objects.all()
@@ -84,8 +87,6 @@ class MovieShowListView(ListView):
         sort_by = self.request.GET.get('sort_by', 'start_time')
         sort_order = self.request.GET.get('sort_order', 'asc')
         day = self.request.GET.get('day', None)
-
-        sort_order = 'asc' if sort_order not in ['asc', 'desc'] else 'desc'
 
         if sort_order == 'asc':
             queryset = queryset.order_by(sort_by, 'ticket_price')
@@ -121,11 +122,11 @@ class MovieShowDetailView(DetailView):
     model = MovieShow
     http_method_names = ['get', 'post']
     template_name = 'movie_shows/shows/show_detail.html'
-    extra_context = {'order_form': OrderCreateForm}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['available_seats'] = self.object.movie_hall.seats - self.object.sold_seats
+        context['order_form'] = OrderCreateForm(initial={'movie_show': self.object})
         return context
 
 
@@ -136,18 +137,14 @@ class MovieShowCreateView(AdminRequiredMixin, CreateView):
     template_name = 'movie_shows/shows/show_create.html'
     success_url = reverse_lazy('shows:show_list')
 
-    def form_valid(self, form):
-        try:
-            form.save()
-        except exceptions.MovieShowsCollideException:
-            messages.add_message(self.request, messages.ERROR, "This movie show collides with another show.")
-            return HttpResponseRedirect(self.request.path_info)
-        else:
-            messages.add_message(self.request, messages.SUCCESS, "Movie show has been created successfully.")
-            return HttpResponseRedirect(self.success_url)
+    def get_absolute_url(self):
+        messages.add_message(self.request, messages.SUCCESS, "Movie show has been created successfully.")
+        return self.object.get_absolute_url()
 
-    def form_invalid(self, form):
-        return HttpResponseRedirect(self.success_url)
+    # def form_valid(self, form):
+    #     form.save()
+    #     messages.add_message(self.request, messages.SUCCESS, "Movie show has been created successfully.")
+    #     return self.object.get_absolute_url()
 
 
 class MovieShowUpdateView(AdminRequiredMixin, SoldTicketCheckMixin, UpdateView):
@@ -155,7 +152,6 @@ class MovieShowUpdateView(AdminRequiredMixin, SoldTicketCheckMixin, UpdateView):
     model = MovieShow
     form_class = MovieShowCreateForm
     template_name = 'movie_shows/shows/show_update.html'
-    success_url = reverse_lazy('shows:show_list')
 
     def get_success_url(self):
         return reverse_lazy('shows:show_list')
@@ -183,20 +179,17 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
 
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super().get_form_kwargs()
-        kwargs.update({
-            'request': self.request,
-            'movie_show': get_object_or_404(MovieShow, pk=self.kwargs['pk']),
-            'customer': self.request.user})
+        kwargs.update({'request': self.request})
         return kwargs
 
     def form_valid(self, form):
         order = form.save(commit=False)
         seat_quantity = form.cleaned_data['seat_quantity']
-        movie_show = form.movie_show
+        movie_show = form.cleaned_data['movie_show']
 
         movie_show.sold_seats += seat_quantity
         order.total_cost = seat_quantity * movie_show.ticket_price
-        order.customer = form.customer
+        order.customer = form.request.user
         order.movie_show = movie_show
 
         order.customer.balance -= order.total_cost
@@ -205,10 +198,8 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
             order.save()
             order.customer.save()
             movie_show.save()
-
         messages.success(self.request, "Order successful!")
         return super().form_valid(form=form)
 
     def form_invalid(self, form):
-        messages.error(self.request, "Invalid form data.")
-        return HttpResponseRedirect(reverse_lazy('shows:show_list'))
+        return HttpResponseRedirect(reverse_lazy('shows:show_detail', kwargs={'pk': self.kwargs.get('pk')}))
