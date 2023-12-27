@@ -16,7 +16,7 @@ from users.api.permissions import IsAdminOrReadOnly
 
 class MovieViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Movie.objects.all()
-    permission_classes = [IsAdminOrReadOnly]
+    # permission_classes = [IsAdminOrReadOnly]
     serializer_class = MovieReadSerializer
 
 
