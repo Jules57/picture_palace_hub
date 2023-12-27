@@ -70,13 +70,12 @@ class OrderCreateForm(forms.ModelForm):
         cleaned_data = super().clean()
         seat_quantity = self.cleaned_data.get('seat_quantity')
 
-        movie_show = self.cleaned_data['movie_show']
-        if movie_show.pk != self.movie_show_id:
+        movie_show = self.cleaned_data.get('movie_show', None)
+        if movie_show is None:
+            movie_show = MovieShow.objects.get(pk=self.movie_show_id)
             self.add_error(None, 'Changed hidden field')
             messages.error(self.request,
-                           'Changed hidden field Movie Show.')
-        else:
-            movie_show = MovieShow.objects.get(pk=self.movie_show_id)
+                           'Don\'t mess up with this hidden field, Vlad.')
 
         if seat_quantity < 1:
             self.add_error('seat_quantity', 'Zero seats.')

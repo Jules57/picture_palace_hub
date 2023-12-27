@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 
@@ -21,7 +22,7 @@ class CinemaHall(models.Model):
         (PREMIUM, 'Premium'),
     ]
     name = models.CharField(max_length=200)
-    seats = models.PositiveIntegerField()
+    seats = models.PositiveIntegerField(validators=[MinValueValidator(limit_value=1)])
     screen_size = models.CharField(
             choices=SCREEN_SIZE_CHOICES,
             default=STANDARD,
