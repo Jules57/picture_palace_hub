@@ -61,6 +61,7 @@ class OrderCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
+        self.movie_show_id = kwargs.pop('movie_show_id', None)
         super().__init__(*args, **kwargs)
 
         self.fields['movie_show'].widget.attrs['readonly'] = True
@@ -68,9 +69,14 @@ class OrderCreateForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         seat_quantity = self.cleaned_data.get('seat_quantity')
-        movie_show = self.cleaned_data.get('movie_show')
 
-        available_seats = movie_show.movie_hall.seats - movie_show.sold_seats
+        movie_show = self.cleaned_data['movie_show']
+        if movie_show.pk != self.movie_show_id:
+            self.add_error(None, 'Changed hidden field')
+            messages.error(self.request,
+                           'Changed hidden field Movie Show.')
+        else:
+            movie_show = MovieShow.objects.get(pk=self.movie_show_id)
 
         if seat_quantity < 1:
             self.add_error('seat_quantity', 'Zero seats.')
@@ -82,7 +88,7 @@ class OrderCreateForm(forms.ModelForm):
             messages.error(self.request,
                            'You specified more tickets than available in this movie hall.')
 
-        if seat_quantity > available_seats:
+        if seat_quantity > movie_show.movie_hall.seats - movie_show.sold_seats:
             self.add_error('seat_quantity', 'Too many seats selected.')
             messages.error(self.request,
                            'You specified more seats than available for this movie show.')

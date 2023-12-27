@@ -174,7 +174,9 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
 
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super().get_form_kwargs()
-        kwargs.update({'request': self.request})
+        kwargs.update({
+            'request': self.request,
+            'movie_show_id': self.kwargs.get('pk')})
         return kwargs
 
     def form_valid(self, form):
